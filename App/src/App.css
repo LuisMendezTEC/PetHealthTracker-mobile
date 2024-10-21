@@ -1,0 +1,32 @@
+/* App.css */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ccc;
+  }
+  
+  .bottom-nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .bottom-nav ul li {
+    flex-grow: 1;
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  .bottom-nav ul li a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .bottom-nav ul li a:hover {
+    background-color: #e0e0e0;
+  }
+  
