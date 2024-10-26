@@ -1,125 +1,60 @@
-import { useEffect, useState } from 'react';
-import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import './App.css'; // Import the CSS file for styling
-import { supabase } from './supabaseClient';
+import {
+  IonApp,
+  IonRouterOutlet,
+  IonTabs,
+  setupIonicReact
+} from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { Redirect, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Pets from './pages/Pets';
+import PetsEdit from './pages/PetsEdit';
+import Register from './pages/Register';
 
-interface Cliente {
-  id_cliente: number;
-  nombre_usuario: string;
-  correo: string;
-  direccion: string;
-}
+let id_dueño = localStorage.getItem('client_id');
 
-interface Mascota {
-  id_mascota: number;
-  nombre_mascota: string;
-  tipo: string;
-  id_cliente: number;
-}
+/* Core CSS required for Ionic components to work properly */
+import '@ionic/react/css/core.css';
 
-interface Funcionario {
-  id_funcionario: number;
-  nombre: string;
-  puesto: string;
-  correo: string;
-}
+/* Basic CSS for apps built with Ionic */
+import '@ionic/react/css/normalize.css';
+import '@ionic/react/css/structure.css';
+import '@ionic/react/css/typography.css';
 
-function App() {
-  const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [mascotas, setMascotas] = useState<Mascota[]>([]);
-  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+/* Optional CSS utils that can be commented out */
+import '@ionic/react/css/display.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/float-elements.css';
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/text-transformation.css';
 
-  const fetchClientes = async () => {
-    const { data, error } = await supabase.from('Clientes').select('*');
-    console.log(data);
-    if (error) console.error('Error fetching clientes:', error);
-    else if (data) setClientes(data);
-  };
+/* Ionic Dark Mode */
+import '@ionic/react/css/palettes/dark.system.css';
 
-  const fetchMascotas = async () => {
-    const { data, error } = await supabase.from('Mascotas').select('*');
-    console.log(data);
-    if (error) console.error('Error fetching mascotas:', error);
-    else if (data) setMascotas(data);
-  };
+/* Theme variables */
+import './theme/variables.css';
 
-  const fetchFuncionarios = async () => {
-    const { data, error } = await supabase.from('Funcionario').select('*');
-    console.log(data);
-    if (error) console.error('Error fetching funcionarios:', error);
-    else if (data) setFuncionarios(data);
-  };
+setupIonicReact();
 
-  useEffect(() => {
-    setLoading(true);
-    Promise.all([fetchClientes(), fetchMascotas(), fetchFuncionarios()])
-      .then(() => setLoading(false))
-      .catch((error) => console.error('Error loading data:', error));
-  }, []);
-
-  return (
-    <Router>
-      <div className="App">
-        <h1>Gestión de Datos</h1>
-        {loading ? (
-          <p>Cargando datos...</p>
-        ) : (
-          <Switch>
-            <Route path="/" exact>
-              <section>
-                <h2>Clientes</h2>
-                <ul>
-                  {clientes.map((cliente) => (
-                    <li key={cliente.id_cliente}>
-                      {cliente.nombre_usuario} - {cliente.correo} - {cliente.direccion}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </Route>
-            <Route path="/mascotas">
-              <section>
-                <h2>Mascotas</h2>
-                <ul>
-                  {mascotas.map((mascota) => (
-                    <li key={mascota.id_mascota}>
-                      {mascota.nombre_mascota} - {mascota.tipo} - ID Cliente: {mascota.id_cliente}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </Route>
-            <Route path="/funcionarios">
-              <section>
-                <h2>Funcionarios</h2>
-                <ul>
-                  {funcionarios.map((funcionario) => (
-                    <li key={funcionario.id_funcionario}>
-                      {funcionario.nombre} - {funcionario.puesto} - {funcionario.correo}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </Route>
-          </Switch>
-        )}
-        <nav className="bottom-nav">
-          <ul>
-            <li>
-              <Link to="/">Clientes</Link>
-            </li>
-            <li>
-              <Link to="/mascotas">Mascotas</Link>
-            </li>
-            <li>
-              <Link to="/funcionarios">Funcionarios</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </Router>
-  );
-}
+const App: React.FC = () => (
+  <IonApp>
+    <IonReactRouter>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Route path="/Login" component={Login} exact />
+          <Route path="/Home" component={Home} exact />
+          <Route path="/Register" component={Register} exact />
+          <Route path="/Pets" component={Pets} exact />
+          {id_dueño && (
+            <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
+          )}
+          <Redirect to="/Login" />
+        </IonRouterOutlet>
+      </IonTabs>
+    </IonReactRouter>
+  </IonApp>
+);
 
 export default App;
