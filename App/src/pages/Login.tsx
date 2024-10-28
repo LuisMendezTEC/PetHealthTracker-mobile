@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import AnimationComponent from '../components/AnimationComponent'; // Import the new animation component
 import logo from '../images/animals-1295975_1280.png';
-import './Login.css';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -59,7 +58,7 @@ const Login: React.FC = () => {
               <div className="flex items-center justify-center flex-col">  
     <AnimationComponent onAnimationComplete={() => setShowAnimation(false)} />  
       
-    <IonText className="text-blue- bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg mt-6">            Bienvenido</IonText>
+    <IonText className="text-blue- bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg mt-6">Bienvenido</IonText>
 </div>
 
             ) : (

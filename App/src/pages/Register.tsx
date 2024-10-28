@@ -3,7 +3,6 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../images/animals-1295975_1280.png';
-import './Register.css'; // Asegúrate de importar el archivo CSS
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
