@@ -2,14 +2,18 @@
 import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import '../../Tailwind.css';
 import { getMascotasByUser, updateMascota } from '../components/api';
 import { Mascota } from '../components/models';
+import '../styles/Pets.css';
 
 const Pets: React.FC = () => {
     const [mascotas, setMascotas] = useState<Mascota[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const userId = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
     const history = useHistory();
+
+    
   
     useEffect(() => {
       const fetchMascotas = async () => {

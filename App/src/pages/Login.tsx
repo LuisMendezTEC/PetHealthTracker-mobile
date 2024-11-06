@@ -1,24 +1,23 @@
 import { IonAlert, IonButton, IonContent, IonInput, IonItem, IonPage, IonText } from '@ionic/react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import AnimationComponent from '../components/AnimationComponent'; // Import the new animation component
+import '../../Tailwind.css';
+import { useAuth } from '../Context/LoginContext';
+import AnimationComponent from '../components/AnimationComponent';
+import backgroundImage from '../images/10143477.jpg';
 import logo from '../images/animals-1295975_1280.png';
+import '../styles/Login.css';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [tipoUsuario, setTipoUsuario] = useState('cliente');
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
-    const [showAnimation, setShowAnimation] = useState(true); // Add state for animation
+    const [showAnimation, setShowAnimation] = useState(true);
     const history = useHistory();
+    const { login } = useAuth();
 
-    useEffect(() => {
-        if (!showAnimation) {
-            // Perform actions after animation ends if needed
-        }
-    }, [showAnimation]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,16 +27,16 @@ const Login: React.FC = () => {
                 const response = await axios.post('http://127.0.0.1:8000/login/', {
                     correo: email,
                     contraseña: password,
-                    role: tipoUsuario,
+                    role: 'cliente',
                 });
 
                 if (response.data && response.data.access_token) {
+                    login(response.data.access_token, response.data.id);
+                    setAlertMessage('Inicio de sesión exitoso.');
+                    console.log("Prueba");
                     console.log(response.data);
-                    localStorage.setItem('token', response.data.access_token);
-                    localStorage.setItem('client_id', response.data.id);
-                    setAlertMessage('Ingreso exitoso');
-                    setShowAlert(true);
-                    history.push('/Pets');
+                    localStorage.setItem('nombre_usuario', response.data.nombre);
+                    history.push('/Dashboard');
                 } else {
                     setAlertMessage('Usuario o contraseña incorrectos.');
                     setShowAlert(true);
@@ -53,17 +52,20 @@ const Login: React.FC = () => {
     };
 
     return (
-        <IonPage className="login-page bg-blue-500 h-full flex items-center justify-center">
+        <IonPage
+            className="h-full w-full flex items-center justify-center bg-cover bg-center"
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+        >
             {showAnimation ? (
-              <div className="flex items-center justify-center flex-col">  
-    <AnimationComponent onAnimationComplete={() => setShowAnimation(false)} />  
-      
-    <IonText className="text-blue- bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg mt-6">Bienvenido</IonText>
-</div>
-
+                <div className="flex items-center justify-center flex-col">
+                    <AnimationComponent onAnimationComplete={() => setShowAnimation(false)} />
+                    <IonText className="text-blue- bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg mt-6">
+                        Bienvenido
+                    </IonText>
+                </div>
             ) : (
-                <IonContent className="ion-padding login-form flex justify-center">
-                    <div className="w-full max-w-md bg-white rounded-lg p-6 shadow-lg space-y-6">
+                <IonContent className="ion-padding flex justify-center items-center w-full h-full">
+                    <div className="w-full max-w-md bg-white bg-opacity-80 rounded-lg p-6 shadow-lg space-y-6">
                         <img src={logo} alt="logo" className="w-24 mx-auto mb-4" />
                         <h1 className="text-3xl font-bold text-center text-gray-800">Inicio de sesión</h1>
                         <IonItem className="input-item flex flex-col">
@@ -100,7 +102,7 @@ const Login: React.FC = () => {
                         <IonAlert
                             isOpen={showAlert}
                             onDidDismiss={() => setShowAlert(false)}
-                            header={'Login Failed'}
+                            header={'Login Error'}
                             message={alertMessage}
                             buttons={['OK']}
                         />

@@ -25,3 +25,8 @@ export const updateMascota = async (id: number, mascota: Mascota) => {
   const response = await api.put(`/mascotas/${id}`, mascota);
   return response.data.data;
 };
+
+export const addPet = async (mascota: Mascota) => {
+  const response = await api.post(`/mascotas`, mascota);
+  return response.data.data;
+}

@@ -1,10 +1,12 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',  // Añade aquí las rutas donde utilizas Tailwind
-  ],
+module.exports = {
+  content: ['./src/**/*.{js,jsx,jsx,ts,tsx,css}'],
+  darkMode: 'media',
   theme: {
+    extend: {},
+  },
+  variants: {
     extend: {},
   },
   plugins: [],

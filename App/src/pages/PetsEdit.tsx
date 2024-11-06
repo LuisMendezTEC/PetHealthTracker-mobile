@@ -1,6 +1,7 @@
 // src/pages/EditarMascotaPage.tsx
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
+import '../../Tailwind.css';
 import { getMascotasByUser, updateMascota } from '../components/api';
 import { Mascota } from '../components/models';
 

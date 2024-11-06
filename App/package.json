@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:css": "postcss tailwind.css -o src/theme/tailwind.css",
+    "watch:css": "postcss tailwind.css -o src/theme/tailwind.css -w",
+    "start:dev": "yarn watch:css & ionic capacitor run ios -l --external"
   },
   "dependencies": {
     "@capacitor/app": "6.0.1",
@@ -46,6 +49,7 @@
     "eslint-plugin-react": "^7.32.2",
     "jsdom": "^22.1.0",
     "postcss": "^8.4.47",
+    "postcss-cli": "^11.0.0",
     "tailwindcss": "^3.4.14",
     "terser": "^5.4.0",
     "typescript": "^5.1.6",

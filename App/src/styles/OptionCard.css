@@ -1,0 +1,12 @@
+.option-card {
+  background-color: #D2B48C; /* Café claro */
+  color: #8B4513; /* Café oscuro */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.option-card:hover {
+  background-color: #C19A6B; /* Café un poco más oscuro en hover */
+  color: #5D3A00; /* Color de texto un poco más oscuro en hover */
+  transform: scale(1.05); /* Ligeramente más grande en hover */
+}

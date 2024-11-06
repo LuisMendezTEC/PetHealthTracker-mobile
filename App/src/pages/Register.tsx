@@ -3,6 +3,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../images/animals-1295975_1280.png';
+import '../../Tailwind.css';
+
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -11,6 +13,7 @@ const Register: React.FC = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const history = useHistory();
+
 
 
   const handleRegister = async (e: React.FormEvent) => {
