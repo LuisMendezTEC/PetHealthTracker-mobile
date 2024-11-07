@@ -1,5 +1,6 @@
 import { IonAlert, IonButton, IonContent, IonInput, IonItem, IonPage, IonText } from '@ionic/react';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
@@ -18,10 +19,9 @@ const Login: React.FC = () => {
     const history = useHistory();
     const { login } = useAuth();
 
-
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         if (email && password) {
             try {
                 const response = await axios.post('http://127.0.0.1:8000/login/', {
@@ -29,28 +29,26 @@ const Login: React.FC = () => {
                     contraseña: password,
                     role: 'cliente',
                 });
-
+    
                 if (response.data && response.data.access_token) {
+                    // Decodificar el token sin la clave secreta
+                    const decodedToken = jwtDecode(response.data.access_token);
+                    console.log('Decoded Token:', decodedToken);  // Muestra el payload del token
+
+                    // Ahora puedes usar los datos decodificados del token si los necesitas
                     login(response.data.access_token, response.data.id);
                     setAlertMessage('Inicio de sesión exitoso.');
-                    console.log("Prueba");
-                    console.log(response.data);
-                    localStorage.setItem('nombre_usuario', response.data.nombre);
+                    localStorage.setItem('nombre_usuario', decodedToken.nombre); // Use the 'nombre' property 
+                    localStorage.setItem('client_id', decodedToken.client_id); // Use the 'id' property                   
+                    // Redirigir al usuario al Dashboard
                     history.push('/Dashboard');
-                } else {
-                    setAlertMessage('Usuario o contraseña incorrectos.');
-                    setShowAlert(true);
                 }
             } catch (error) {
-                setAlertMessage('Error al conectar con el servidor. Intente más tarde.');
-                setShowAlert(true);
+                console.error('Error de inicio de sesión:', error);
+                setAlertMessage('Error al iniciar sesión. Verifica tus credenciales.');
             }
-        } else {
-            setAlertMessage('Algunos campos están vacíos.');
-            setShowAlert(true);
         }
     };
-
     return (
         <IonPage
             className="h-full w-full flex items-center justify-center bg-cover bg-center"

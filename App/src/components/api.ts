@@ -22,7 +22,7 @@ export const getMascotasByUser = async (userId: number) => {
 
 
 export const updateMascota = async (id: number, mascota: Mascota) => {
-  const response = await api.put(`/mascotas/${id}`, mascota);
+  const response = await api.put(`/mascotas/${id}/editar`, mascota);
   return response.data.data;
 };
 
