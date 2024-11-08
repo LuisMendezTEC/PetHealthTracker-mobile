@@ -25,6 +25,10 @@ const Dashboard: React.FC = () => {
               <OptionCard title="Add Pet" description="Add a new pet to your list" link="/PetAdd" />
             </IonCol>
 
+            <IonCol size="6" size-md="4">
+              <OptionCard title="Appointments" description="View and manage your appointments" link="/Appointments" />
+            </IonCol>
+
             {/* Future cards can be added here */}
           </IonRow>
         </IonGrid>

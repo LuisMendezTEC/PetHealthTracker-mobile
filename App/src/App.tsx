@@ -9,6 +9,7 @@ import { Redirect, Route } from 'react-router-dom';
 import '../Tailwind.css';
 import { AuthProvider } from './Context/LoginContext';
 import './images/10143477.jpg';
+import Appointments from './pages/Appointments';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -54,6 +55,7 @@ const App: React.FC = () => (
               <Route path="/Home" component={Home} exact />
               <Route path="/Register" component={Register} exact />
               <Route path="/Pets" component={Pets} exact />
+              <Route path="/Appointments" component={Appointments} exact />
               {id_dueño ? (
             <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
           ) : (
