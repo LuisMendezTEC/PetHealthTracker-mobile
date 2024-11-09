@@ -12,6 +12,7 @@ const Appointments: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const userId = localStorage.getItem('client_id');
     const history = useHistory();
+    const id_cita = localStorage.getItem('id_cita');
 
     useEffect(() => {
         const fetchCitas = async () => {
@@ -24,9 +25,13 @@ const Appointments: React.FC = () => {
                         getCitasByMascota(mascota.id)
                     );
                     const citasData = await Promise.all(citasPromises);
-                    console.log("CitasData");
-                    console.log(citasData);
-                    setCitas(citasData.flat()); // Combina todas las citas en un solo array
+                // Verifica si citasData[0] tiene elementos antes de acceder
+                if (citasData.length > 0 && citasData[0].length > 0) {
+                    localStorage.setItem('id_cita', citasData[0][0].id);
+                    setCitas(citasData.flat());
+                } else {
+                    console.warn("No se encontraron citas.");
+                }
                 } catch (error) {
                     console.error("Error al obtener las citas:", error);
                 } finally {
@@ -58,7 +63,7 @@ const Appointments: React.FC = () => {
                                     <p>Hora: {cita.hora_cita}</p>
                                     <p>Veterinario ID: {cita.id_veterinario}</p>
                                 </IonLabel>
-                                <IonButton onClick={() => history.push(`/citas/${cita.id_mascota}/editar`)}>Editar</IonButton>
+                                <IonButton onClick={() => history.push(`/citas/${id_cita}/editar`)}>Ver más</IonButton>
                             </IonItem>
                         ))}
                     </IonList>

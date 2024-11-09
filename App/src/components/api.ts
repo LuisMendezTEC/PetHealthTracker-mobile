@@ -42,3 +42,24 @@ export const getCitasByMascota = async (mascotaId: number) => {
     console.log(data.data);
     return data.data; 
 };
+
+  export const getCitaByFecha = async (id_cita: number) => {
+    const response = await fetch(`http://localhost:8000/citas/${id_cita}/fecha`);
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error("Error al obtener la cita por fecha");
+    }
+    return data.data;
+  }
+
+export const cancelarCita = async (id: number) => {
+    const response = await fetch(`http://localhost:8000/citas/${id}/cancelar`, {
+      method: "DELETE",
+    })
+    if (!response.ok) {
+      throw new Error("Error al cancelar la cita");
+    } else {
+      return response.json();
+    }
+  };
+  

@@ -10,6 +10,7 @@ import '../Tailwind.css';
 import { AuthProvider } from './Context/LoginContext';
 import './images/10143477.jpg';
 import Appointments from './pages/Appointments';
+import AppointmentsEdit from './pages/AppointmentsEdit';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -19,6 +20,7 @@ import PetsEdit from './pages/PetsEdit';
 import Register from './pages/Register';
 
 let id_dueño = localStorage.getItem('client_id');
+let id_cita = localStorage.getItem('id_cita');
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -56,6 +58,7 @@ const App: React.FC = () => (
               <Route path="/Register" component={Register} exact />
               <Route path="/Pets" component={Pets} exact />
               <Route path="/Appointments" component={Appointments} exact />
+              <Route path={`/citas/${id_cita}/editar`} component={AppointmentsEdit} exact />
               {id_dueño ? (
             <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
           ) : (
