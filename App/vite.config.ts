@@ -17,5 +17,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['jwt-decode'],
+  },
+  server : {
+    host: '0.0.0.0'
   }
 })
