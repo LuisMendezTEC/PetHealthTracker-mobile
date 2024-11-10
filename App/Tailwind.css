@@ -2,3 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 /** other custom global styles can go here */
+.text-brown {
+    color: #8B4513; /* Color café */
+}
+
+.bg-wood {
+    background-color: #DEB887; /* Color madera */
+}
+
+.card-bg-wood {
+    background-color: #F5DEB3; /* Color madera claro para las tarjetas */
+}
+

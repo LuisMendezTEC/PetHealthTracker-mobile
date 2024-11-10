@@ -1,6 +1,6 @@
 // src/api.ts
 import axios from 'axios';
-import { Mascota } from './models';
+import { Cita, Mascota } from './models';
 const userId = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
 
 
@@ -63,3 +63,7 @@ export const cancelarCita = async (id: number) => {
     }
   };
   
+export const addCita = async (cita: Cita) => {
+    const response = await api.post('/citas', cita);
+    return response.data.data;
+}

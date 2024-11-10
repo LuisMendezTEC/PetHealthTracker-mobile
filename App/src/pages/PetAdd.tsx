@@ -45,22 +45,22 @@ const PetsAdd: React.FC = () => {
   };
 
   return (
-    <IonPage>
+    <IonPage className="bg-wood">
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Añadir Mascota</IonTitle>
+        <IonToolbar className="bg-wood">
+          <IonTitle className="text-brown">Añadir Mascota</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen className="bg-wood">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
           </div>
         ) : (
           <IonList className="p-6 space-y-6">
-            <IonCard className="bg-blue-50"> {/* Fondo celeste para el cuadro */}
+            <IonCard className="card-bg-wood"> {/* Fondo madera para el cuadro */}
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-blue-500">Nombre</IonLabel> {/* Título celeste */}
+                <IonLabel className="text-lg font-bold text-brown">Nombre</IonLabel> {/* Título café */}
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -71,9 +71,9 @@ const PetsAdd: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            <IonCard className="bg-blue-50">
+            <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-blue-500">Especie</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">Especie</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -84,9 +84,9 @@ const PetsAdd: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            <IonCard className="bg-blue-50">
+            <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-blue-500">Raza</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">Raza</IonLabel> {/* Título café */}
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -97,9 +97,9 @@ const PetsAdd: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            <IonCard className="bg-blue-50">
+            <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-blue-500">Fecha de Nacimiento</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">Fecha de Nacimiento</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonInput

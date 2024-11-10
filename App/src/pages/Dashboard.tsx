@@ -17,18 +17,21 @@ const Dashboard: React.FC = () => {
           <IonRow>
             {/* Card for Pets */}
             <IonCol size="6" size-md="4">
-              <OptionCard title="Pets" description="View and manage your pets" link="/Pets" />
+              <OptionCard title="Mascotas" description="Ver y editar tus mascotas" link="/Pets" />
             </IonCol>
 
             {/* Card for Add New Pet */}
             <IonCol size="6" size-md="4">
-              <OptionCard title="Add Pet" description="Add a new pet to your list" link="/PetAdd" />
+              <OptionCard title="Añadir mascota" description="Agrega una nueva mascota a tu lista" link="/PetAdd" />
             </IonCol>
 
             <IonCol size="6" size-md="4">
-              <OptionCard title="Appointments" description="View and manage your appointments" link="/Appointments" />
+              <OptionCard title="Citas" description="Ver tus citas" link="/Appointments" />
             </IonCol>
 
+            <IonCol size="6" size-md="4">
+              <OptionCard title="Añadir cita" description="Añade una nueva cita" link="/AppointmentsAdd" />
+            </IonCol>
             {/* Future cards can be added here */}
           </IonRow>
         </IonGrid>

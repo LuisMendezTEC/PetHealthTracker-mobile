@@ -10,6 +10,7 @@ import '../Tailwind.css';
 import { AuthProvider } from './Context/LoginContext';
 import './images/10143477.jpg';
 import Appointments from './pages/Appointments';
+import AppointmentsAdd from './pages/AppointmentsAdd';
 import AppointmentsEdit from './pages/AppointmentsEdit';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -59,8 +60,9 @@ const App: React.FC = () => (
               <Route path="/Pets" component={Pets} exact />
               <Route path="/Appointments" component={Appointments} exact />
               <Route path={`/citas/${id_cita}/editar`} component={AppointmentsEdit} exact />
+              <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
               {id_dueño ? (
-            <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
+              <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
           ) : (
             <Redirect to="/Login" />
           )}
