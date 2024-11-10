@@ -14,3 +14,7 @@
     background-color: #F5DEB3; /* Color madera claro para las tarjetas */
 }
 
+.wide-button { width: 30%; height: 30%; }
+
+
+.h-64 { height: 12rem; /* Altura fija de 64 unidades */ } 

@@ -1,6 +1,6 @@
 // src/api.ts
 import axios from 'axios';
-import { Cita, Mascota } from './models';
+import { Cita, Mascota, VacunaRel } from './models';
 const userId = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
 
 
@@ -66,4 +66,27 @@ export const cancelarCita = async (id: number) => {
 export const addCita = async (cita: Cita) => {
     const response = await api.post('/citas', cita);
     return response.data.data;
+}
+
+export const getDiagnosticsByPet = async (mascotaId: number) => {
+  const response = await fetch(`http://localhost:8000/historial/cliente/${mascotaId}`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener los diagnósticos de la mascota");
+  }
+  return data.data;
+}
+
+export const getVaccineByPet = async (mascotaId: number): Promise<VacunaRel[]> => {
+  const response = await api.get(`/vacunas_mascotas/${mascotaId}`);
+  return response.data;
+};  
+
+export const getVaccine = async (id: number) => {
+  const response = await fetch(`http://localhost:8000/vacunas/${id}`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener la vacuna");
+  }
+  return data.data;
 }

@@ -13,12 +13,14 @@ import Appointments from './pages/Appointments';
 import AppointmentsAdd from './pages/AppointmentsAdd';
 import AppointmentsEdit from './pages/AppointmentsEdit';
 import Dashboard from './pages/Dashboard';
+import Diagnostics from './pages/Diagnostics';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import PetsAdd from './pages/PetAdd';
 import Pets from './pages/Pets';
 import PetsEdit from './pages/PetsEdit';
 import Register from './pages/Register';
+import VaccinePets from './pages/VaccinePets';
 
 let id_dueño = localStorage.getItem('client_id');
 let id_cita = localStorage.getItem('id_cita');
@@ -60,6 +62,8 @@ const App: React.FC = () => (
               <Route path="/Pets" component={Pets} exact />
               <Route path="/Appointments" component={Appointments} exact />
               <Route path={`/citas/${id_cita}/editar`} component={AppointmentsEdit} exact />
+              <Route path="/Diagnostics" component={Diagnostics} exact />
+              <Route path="/VaccinePets" component={VaccinePets} exact />
               <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
               {id_dueño ? (
               <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />

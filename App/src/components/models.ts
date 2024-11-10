@@ -13,3 +13,17 @@ export interface Mascota {
     id_veterinario: number; 
     hora_cita: string;
   }
+
+  export interface Vacunas {
+    id: number;
+    fecha_vacuna: string;
+    tipo_vacuna: string;
+  }
+
+  // En models.ts o en el mismo archivo si prefieres
+export interface VacunaRel {
+  id: number;
+  create_at: string;
+  vacuna: number;
+  mascota: number;
+}

@@ -32,6 +32,12 @@ const Dashboard: React.FC = () => {
             <IonCol size="6" size-md="4">
               <OptionCard title="Añadir cita" description="Añade una nueva cita" link="/AppointmentsAdd" />
             </IonCol>
+            <IonCol size="6" size-md="4">
+              <OptionCard title="Diagósticos" description="Ver diagnósticos" link="/Diagnostics" />
+            </IonCol>
+            <IonCol size="6" size-md="4">
+              <OptionCard title="Vacunas" description="Ver vacunas de mis mascotas" link="/VaccinePets" />
+            </IonCol>
             {/* Future cards can be added here */}
           </IonRow>
         </IonGrid>

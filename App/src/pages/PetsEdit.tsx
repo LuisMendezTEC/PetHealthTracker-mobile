@@ -39,7 +39,7 @@ const PetsEdit: React.FC = () => {
     <IonPage className="bg-wood">
       <IonHeader>
         <IonToolbar className="bg-wood">
-          <IonTitle className="text-brown">Editar Mascota</IonTitle>
+          <IonTitle className="text-brown">Mascota</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-wood">
