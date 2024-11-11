@@ -2,7 +2,7 @@ import { IonAlert, IonButton, IonContent, IonInput, IonItem, IonPage, IonText } 
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import logo from '../images/animals-1295975_1280.png';
+import logo from '../images/animals-icon-login.png';
 import '../../Tailwind.css';
 
 
@@ -52,7 +52,7 @@ const Register: React.FC = () => {
         <div className="w-full max-w-md bg-white rounded-lg p-6 shadow-lg space-y-4">
 
           <img src={logo} alt="logo" className="w-24 mx-auto mb-4" />
-          <h1 className="text-2xl font-semibold text-center text-gray-800">Registro</h1>
+          <h1 className="text-2xl font-semibold text-center text-gray-800">Registrate para acceder</h1>
 
           {/* Campo de Nombre de usuario */}
           <IonItem className="input-item flex flex-col">
@@ -93,7 +93,7 @@ const Register: React.FC = () => {
 
           {/* Botón de registro */}
           <IonButton expand="block" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg mt-4" onClick={handleRegister}>
-            Registro
+            Completar registro
           </IonButton>
 
           {/* Enlace para iniciar sesión */}
