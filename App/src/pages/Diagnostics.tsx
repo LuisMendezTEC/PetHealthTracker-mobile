@@ -11,27 +11,23 @@ const Diagnostics: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [diagnosticos, setDiagnosticos] = useState<{ [key: number]: any[] }>({});
   const [loading, setLoading] = useState<boolean>(true);
-  const userId = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
+  const userId = localStorage.getItem('client_id');
   const history = useHistory();
 
   useEffect(() => {
     const fetchMascotas = async () => {
-      console.log(userId);
-      if (userId) { // Verifica que userId exista antes de usarlo
+      if (userId) {
         try {
-          const data = await getMascotasByUser(Number(userId)); // Asegúrate de convertirlo a número si es necesario
+          const data = await getMascotasByUser(Number(userId));
           const diagnosticosPorMascota: { [key: number]: any[] } = {};
 
           for (const mascota of data) {
-            console.log(mascota);
             const diagnostics = await getDiagnosticsByPet(mascota.id);
             diagnosticosPorMascota[mascota.id] = diagnostics;
           }
 
           setMascotas(data);
           setDiagnosticos(diagnosticosPorMascota);
-          console.log("Data");  
-          console.log(data);
         } catch (error) {
           console.error("Error al obtener mascotas:", error);
         } finally {
@@ -45,29 +41,29 @@ const Diagnostics: React.FC = () => {
   }, [userId]);
 
   return (
-    <IonPage>
+    <IonPage className="bg-wood">
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Diagnósticos</IonTitle>
+        <IonToolbar className="bg-wood">
+          <IonTitle className="text-brown">Diagnósticos</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen className="bg-wood">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
           </div>
         ) : (
-          <IonList>
+          <IonList className="p-6 space-y-6">
             {mascotas.map((mascota) => (
-              <IonItem key={mascota.id}>
-                <IonLabel className="h-64 overflow-auto"> {/* Clase para altura fija */}
-                  <h2 className="font-bold text-lg">{mascota.nombre_mascota}</h2>
+              <IonItem key={mascota.id} className="card-bg-wood rounded-lg shadow-md p-4">
+                <IonLabel className="h-64 overflow-auto">
+                  <h2 className="font-bold text-lg text-brown">{mascota.nombre_mascota}</h2>
                   {diagnosticos[mascota.id] && diagnosticos[mascota.id].length > 0 ? (
-                    <IonList>
+                    <IonList className="space-y-2 mt-2">
                       {diagnosticos[mascota.id].map((diagnostico) => (
-                        <IonItem key={diagnostico.id}>
+                        <IonItem key={diagnostico.id} className="border-b border-gray-300">
                           <IonLabel>
-                            <h3>Fecha: {diagnostico.fecha}</h3>
+                            <h3 className="font-semibold">Fecha: {diagnostico.fecha}</h3>
                             <p>Tipo: {diagnostico.tipo}</p>
                             <p>Descripción: {diagnostico.descripcion}</p>
                             <p>Veterinario ID: {diagnostico.veterinario_id}</p>
@@ -77,10 +73,10 @@ const Diagnostics: React.FC = () => {
                       ))}
                     </IonList>
                   ) : (
-                    <p>No hay diagnósticos asociados a esta mascota.</p>
+                    <p className="text-gray-500">No hay diagnósticos asociados a esta mascota.</p>
                   )}
                 </IonLabel>
-                <IonButton className="wide-button" onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>Ver mascota</IonButton>                
+                <IonButton className="wide-button" onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>Ver mascota</IonButton>               
               </IonItem>
             ))}
           </IonList>

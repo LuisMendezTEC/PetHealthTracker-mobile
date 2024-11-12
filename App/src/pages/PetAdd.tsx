@@ -60,10 +60,14 @@ const PetsAdd: React.FC = () => {
           <IonList className="p-6 space-y-6">
             <IonCard className="card-bg-wood"> {/* Fondo madera para el cuadro */}
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Nombre</IonLabel> {/* Título café */}
+                <IonLabel className="text-lg font-bold text-brown">Nombre
+                 
+                </IonLabel> {/* Título café */}
+                
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
+                  placeholder='Nombre de la mascota'
                   value={nombreMascota}
                   onIonChange={(e) => setNombreMascota(e.detail.value!)}
                   className="border rounded-lg p-2"
@@ -77,6 +81,7 @@ const PetsAdd: React.FC = () => {
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
+                  placeholder='Especie de la mascota'
                   value={especie}
                   onIonChange={(e) => setEspecie(e.detail.value!)}
                   className="border rounded-lg p-2"
@@ -90,6 +95,7 @@ const PetsAdd: React.FC = () => {
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
+                placeholder='Raza de la mascota'
                   value={raza}
                   onIonChange={(e) => setRaza(e.detail.value!)}
                   className="border rounded-lg p-2"

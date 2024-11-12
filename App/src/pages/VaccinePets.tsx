@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { getMascotasByUser, getVaccine, getVaccineByPet } from '../components/api';
 import { Mascota, VacunaRel, Vacunas } from '../components/models';
+import '../styles/VaccinePets.css';
 
 const VaccinePets: React.FC = () => {
     const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -53,11 +54,11 @@ const VaccinePets: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Mis Mascotas y Vacunas</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+      <IonHeader>
+        <IonToolbar >
+          <IonTitle >Mis Mascotas y Vacunas</IonTitle>
+        </IonToolbar>
+      </IonHeader>
             <IonContent fullscreen>
                 {loading ? (
                     <IonSpinner name="crescent" />

@@ -14,7 +14,17 @@
     background-color: #F5DEB3; /* Color madera claro para las tarjetas */
 }
 
-.wide-button { width: 30%; height: 30%; }
-
+.wide-button {
+    width: 30%;
+    height: 30%;
+    outline: 2px solid #F5DEB3; /* Contorno */  
+    box-shadow: 0 4px 8px rgba(245, 222, 179, 0.5); /* Sombra */
+     border: 2px solid #F5DEB3; /* Color del borde */
+     background-color: #F5DEB3 ;
+}
+  
+.ion-header-pest {
+    background-color: #F5DEB3; /* Color madera claro para el header */
+}
 
 .h-64 { height: 12rem; /* Altura fija de 64 unidades */ } 
