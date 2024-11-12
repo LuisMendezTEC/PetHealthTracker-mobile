@@ -83,7 +83,7 @@ const VaccinePets: React.FC = () => {
                                     )}
                                 </IonLabel>
                                 <IonButton expand="block" className="mt-2 w-32 h-10" onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>
-                                    Editar
+                                    ver mascota
                                 </IonButton>
                             </IonItem>
                         ))}

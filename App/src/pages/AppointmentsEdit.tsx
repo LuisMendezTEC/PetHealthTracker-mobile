@@ -1,17 +1,17 @@
 import {
-  IonAlert,
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonContent,
-  IonHeader,
-  IonLabel,
-  IonList,
-  IonPage,
-  IonSpinner,
-  IonTitle,
-  IonToolbar,
+    IonAlert,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonContent,
+    IonHeader,
+    IonLabel,
+    IonList,
+    IonPage,
+    IonSpinner,
+    IonTitle,
+    IonToolbar,
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import '../../Tailwind.css';
@@ -23,6 +23,7 @@ const AppointmentsEdit: React.FC = () => {
   const [cita, setCita] = useState<Cita | null>(null);
   const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
   const id_cita = localStorage.getItem('id_cita');
+  const nombre_veterinario = localStorage.getItem('nombre_veterinario');    
 
   useEffect(() => {
       const fetchCita = async () => {
@@ -88,9 +89,9 @@ const AppointmentsEdit: React.FC = () => {
 
                           <IonCard className="card-bg-wood">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">Veterinario ID</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-brown">Veterinario</IonLabel>
                               </IonCardHeader>
-                              <IonCardContent>{cita.id_veterinario}</IonCardContent>
+                              <IonCardContent>{nombre_veterinario}</IonCardContent>
                           </IonCard>
 
                           <IonButton

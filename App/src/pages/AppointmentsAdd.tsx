@@ -1,7 +1,7 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonInput, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import '../../Tailwind.css';
-import { addCita, getMascotasByUser } from '../components/api';
+import { addCita, getMascotasByUser, getVet } from '../components/api';
 import { Cita, Mascota } from '../components/models';
 
 const CitasAdd: React.FC = () => {
@@ -12,19 +12,22 @@ const CitasAdd: React.FC = () => {
   const [idVeterinario, setIdVeterinario] = useState<number | undefined>();
   const [showToast, setShowToast] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [veterinarios, setVeterinarios] = useState<any[]>([]);
   const client_id = Number(localStorage.getItem('client_id'));
 
   useEffect(() => {
-    const fetchMascotas = async () => {
+    const fetchData = async () => {
       try {
         const mascotasData = await getMascotasByUser(client_id);
         setMascotas(mascotasData);
+
+        const veterinariosData = await getVet();
+        setVeterinarios(veterinariosData);
       } catch (error) {
-        console.error("Error al obtener las mascotas:", error);
+        console.error("Error al obtener los datos:", error);
       }
     };
-    fetchMascotas();
+    fetchData();
   }, [client_id]);
 
   const handleAddCita = async () => {
@@ -120,15 +123,21 @@ const CitasAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">ID Veterinario</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">Veterinario</IonLabel>
               </IonCardHeader>
               <IonCardContent>
-                <IonInput
-                  type="number"
+                <IonSelect
+                  placeholder="Selecciona un veterinario"
                   value={idVeterinario}
-                  onIonChange={(e) => setIdVeterinario(parseInt(e.detail.value!, 10))}
+                  onIonChange={(e) => setIdVeterinario(e.detail.value)}
                   className="border rounded-lg p-2"
-                />
+                >
+                  {veterinarios.map((veterinario) => (
+                    <IonSelectOption key={veterinario.id} value={veterinario.id}>
+                      {veterinario.nombre}
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
               </IonCardContent>
             </IonCard>
 

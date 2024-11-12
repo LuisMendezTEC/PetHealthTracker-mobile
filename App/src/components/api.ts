@@ -90,3 +90,21 @@ export const getVaccine = async (id: number) => {
   }
   return data.data;
 }
+
+export const getVetByPet = async (veterinario_id: number) => {
+  const response = await fetch(`http://localhost:8000/veterinarios/${veterinario_id}`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener el veterinario de la mascota");
+  }
+  return data.data;
+}
+
+export const getVet = async () => {
+  const response = await fetch(`http://localhost:8000/veterinarios`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener el veterinario");
+  }
+  return data.data;
+}

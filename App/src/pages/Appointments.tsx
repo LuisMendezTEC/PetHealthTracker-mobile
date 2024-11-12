@@ -1,19 +1,19 @@
 import {
-    IonButton,
-    IonContent,
-    IonHeader,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonSpinner,
-    IonTitle,
-    IonToolbar,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSpinner,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
-import { getCitasByMascota, getMascotasByUser } from '../components/api';
+import { getCitasByMascota, getMascotasByUser, getVetByPet } from '../components/api';
 import { Cita, Mascota } from '../components/models';
   
   const Appointments: React.FC = () => {
@@ -23,6 +23,7 @@ import { Cita, Mascota } from '../components/models';
     const userId = localStorage.getItem('client_id');
     const history = useHistory();
     const id_cita = localStorage.getItem('id_cita');
+    const nombre_veterinario = localStorage.getItem('nombre_veterinario');
   
     useEffect(() => {
       const fetchCitas = async () => {
@@ -38,6 +39,12 @@ import { Cita, Mascota } from '../components/models';
             
             if (citasData.length > 0 && citasData[0].length > 0) {
               localStorage.setItem('id_cita', citasData[0][0].id);
+              localStorage.setItem('id_veterinario', citasData[0][0].id_veterinario);
+              const id_veterinario = citasData[0][0].id_veterinario;
+              const vetData = await getVetByPet(id_veterinario);
+              console.log("Vet Data");
+              console.log(vetData);
+              localStorage.setItem('nombre_veterinario', vetData[0].nombre);
               setCitas(citasData.flat());
             } else {
               console.warn("No se encontraron citas.");
@@ -76,7 +83,7 @@ import { Cita, Mascota } from '../components/models';
                   <IonLabel>
                     <h2 className="text-lg font-semibold text-brown">Fecha: {cita.fecha_cita}</h2>
                     <p className="text-gray-600">Hora: {cita.hora_cita}</p>
-                    <p className="text-gray-600">Veterinario ID: {cita.id_veterinario}</p>
+                    <p className="text-gray-600">Veterinario: {nombre_veterinario}</p>
                   </IonLabel>
                   <IonButton
                     onClick={() => history.push(`/citas/${id_cita}/editar`)}
