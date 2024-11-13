@@ -1,15 +1,27 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import OptionCard from '../components/OptionCard';
 
 const Dashboard: React.FC = () => {
   const clientName = localStorage.getItem('nombre_usuario'); // Obtiene el nombre del cliente desde el almacenamiento local
+  const history = useHistory(); // Hook para manejar la navegación
+
+  const goToSettings = () => {
+    history.push('/settings');
+  };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>{`Bienvenido, ${clientName}`}</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>

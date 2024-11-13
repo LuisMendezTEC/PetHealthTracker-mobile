@@ -20,6 +20,7 @@ import PetsAdd from './pages/PetAdd';
 import Pets from './pages/Pets';
 import PetsEdit from './pages/PetsEdit';
 import Register from './pages/Register';
+import Settings from './pages/Settings';
 import VaccinePets from './pages/VaccinePets';
 
 let id_dueño = localStorage.getItem('client_id');
@@ -58,6 +59,7 @@ const App: React.FC = () => (
               <Route path="/Dashboard" component={Dashboard} exact />
               <Route path="/Login" component={Login} exact />
               <Route path="/Home" component={Home} exact />
+              <Route path="/settings" component={Settings} exact />
               <Route path="/Register" component={Register} exact />
               <Route path="/Pets" component={Pets} exact />
               <Route path="/Appointments" component={Appointments} exact />
