@@ -5,6 +5,7 @@ export interface Mascota {
     raza: string;
     fecha_nacimiento: string;
     id_dueño: number;
+    image_url: string;
   }
 
   export interface Cita {

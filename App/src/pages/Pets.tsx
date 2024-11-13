@@ -1,47 +1,72 @@
-// src/pages/MascotasPage.tsx
-import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSpinner,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../Tailwind.css';
-import { getMascotasByUser, updateMascota } from '../components/api';
+import { getMascotasByUser } from '../components/api';
 import { Mascota } from '../components/models';
 import '../styles/Pets.css';
 
 const Pets: React.FC = () => {
-    const [mascotas, setMascotas] = useState<Mascota[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const userId = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
-    const history = useHistory();
+  const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const userId = localStorage.getItem('client_id'); 
+  const history = useHistory();
 
-    
-  
-    useEffect(() => {
-      const fetchMascotas = async () => {
-        console.log(userId);
-        if (userId) { // Verifica que userId exista antes de usarlo
-          try {
-            const data = await getMascotasByUser(Number(userId)); // Asegúrate de convertirlo a número si es necesario
-            setMascotas(data);
-            console.log("Data");  
-            console.log(data);
-          } catch (error) {
-            console.error("Error al obtener mascotas:", error);
-          } finally {
-            setLoading(false);
-          }
-        } else {
-          console.error("No se encontró el ID del usuario en localStorage");
+  useEffect(() => {
+    const fetchMascotas = async () => {
+      if (userId) {
+        try {
+          const data = await getMascotasByUser(Number(userId));
+          setMascotas(data);
+        } catch (error) {
+          console.error("Error al obtener mascotas:", error);
+        } finally {
+          setLoading(false);
         }
-      };
-      fetchMascotas();
-    }, [userId]);
+      } else {
+        console.error("No se encontró el ID del usuario en localStorage");
+      }
+    };
+    fetchMascotas();
+  }, [userId]);
 
-  const handleUpdateMascota = async (mascota: Mascota) => {
-    try {
-      await updateMascota(mascota.id, mascota);
-      alert("Mascota actualizada exitosamente");
-    } catch (error) {
-      console.error("Error al actualizar mascota:", error);
+
+  const handleUploadImage = async (event: React.ChangeEvent<HTMLInputElement>, mascotaId: number) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch(`http://localhost:8000/upload-mascota-image/${mascotaId}`, {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (response.ok) {
+          // Actualizar la mascota con la nueva URL de imagen
+          setMascotas((prev) =>
+            prev.map((mascota) =>
+              mascota.id === mascotaId ? { ...mascota, imagen_url: result.image_url } : mascota
+            )
+          );
+          alert("Imagen subida exitosamente");
+        } else {
+          console.error("Error al subir imagen:", result.detail);
+        }
+      } catch (error) {
+        console.error("Error al subir imagen:", error);
+      }
     }
   };
 
@@ -60,7 +85,20 @@ const Pets: React.FC = () => {
             {mascotas.map((mascota) => (
               <IonItem key={mascota.id}>
                 <IonLabel>{mascota.nombre_mascota}</IonLabel>
-                <IonButton onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>Editar</IonButton>
+                {mascota.image_url && (
+                  <img src={mascota.image_url} alt={`${mascota.nombre_mascota} profile`} className="mascota-img" />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleUploadImage(e, mascota.id)}
+                  style={{ display: "none" }}
+                  id={`file-upload-${mascota.id}`}
+                />
+                <IonButton onClick={() => document.getElementById(`file-upload-${mascota.id}`)?.click()}>
+                  Subir Imagen
+                </IonButton>
+                <IonButton onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>Ver mascota</IonButton>
               </IonItem>
             ))}
           </IonList>
