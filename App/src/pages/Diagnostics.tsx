@@ -1,5 +1,6 @@
 // src/pages/MascotasPage.tsx
-import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
@@ -14,6 +15,10 @@ const Diagnostics: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const userId = localStorage.getItem('client_id');
   const history = useHistory();
+
+  const goToSettings = () => {
+    history.push('/settings');
+  }
 
   useEffect(() => {
     const fetchMascotas = async () => {
@@ -58,6 +63,16 @@ const Diagnostics: React.FC = () => {
       <IonHeader>
         <IonToolbar className="bg-wood">
           <IonTitle className="text-brown">Diagnósticos</IonTitle>
+          <IonButtons slot="end">
+                    <IonButton onClick={goToSettings}>
+                    <IonIcon icon={settingsOutline} />
+                    </IonButton>
+                </IonButtons>
+          <IonButtons slot="end">
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-wood">

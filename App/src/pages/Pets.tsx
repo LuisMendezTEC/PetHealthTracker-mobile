@@ -1,7 +1,9 @@
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -10,6 +12,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getMascotasByUser } from '../components/api';
@@ -21,6 +24,9 @@ const Pets: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const userId = localStorage.getItem('client_id'); 
   const history = useHistory();
+  const goToSettings = () => {
+    history.push('/settings');
+  };
 
   useEffect(() => {
     const fetchMascotas = async () => {
@@ -75,6 +81,11 @@ const Pets: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Mis Mascotas</IonTitle>
+          <IonButtons slot="end">
+                    <IonButton onClick={goToSettings}>
+                    <IonIcon icon={settingsOutline} />
+                    </IonButton>
+                </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

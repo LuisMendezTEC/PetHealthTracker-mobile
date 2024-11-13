@@ -5,8 +5,10 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { I18nextProvider } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
 import '../Tailwind.css';
+import i18n from './Config/i18n';
 import { AuthProvider } from './Context/LoginContext';
 import './images/10143477.jpg';
 import Appointments from './pages/Appointments';
@@ -51,6 +53,7 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
+    <I18nextProvider i18n={i18n}>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
@@ -77,6 +80,7 @@ const App: React.FC = () => (
           </IonRouterOutlet>
         </IonTabs>
       </IonReactRouter>
+      </I18nextProvider>
   </IonApp>
 );
 

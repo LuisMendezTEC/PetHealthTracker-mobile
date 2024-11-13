@@ -1,5 +1,7 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { addPet } from '../components/api';
 import { Mascota } from '../components/models';
@@ -12,6 +14,10 @@ const PetsAdd: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [loading, setLoading] = useState(false); // Estado de carga
   const idDueño = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
+  const history = useHistory();
+  const goToSettings = () => {
+    history.push('/settings');
+  };  
 
   const handleAddPet = async () => {
     if (!nombreMascota || !especie || !raza || !fechaNacimiento) {
@@ -26,6 +32,7 @@ const PetsAdd: React.FC = () => {
       raza,
       fecha_nacimiento: fechaNacimiento,
       id_dueño: Number(idDueño),
+      image_url: ""
     };
 
     try {
@@ -49,6 +56,11 @@ const PetsAdd: React.FC = () => {
       <IonHeader>
         <IonToolbar className="bg-wood">
           <IonTitle className="text-brown">Añadir Mascota</IonTitle>
+          <IonButtons slot="end">
+                    <IonButton onClick={goToSettings}>
+                    <IonIcon icon={settingsOutline} />
+                    </IonButton>
+                </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-wood">

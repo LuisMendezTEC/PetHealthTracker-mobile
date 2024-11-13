@@ -1,11 +1,13 @@
 import {
     IonAlert,
     IonButton,
+    IonButtons,
     IonCard,
     IonCardContent,
     IonCardHeader,
     IonContent,
     IonHeader,
+    IonIcon,
     IonLabel,
     IonList,
     IonPage,
@@ -13,7 +15,9 @@ import {
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { cancelarCita, getCitaByFecha } from '../components/api'; // función API para obtener y cancelar la cita
 import { Cita } from '../components/models';
@@ -24,6 +28,10 @@ const AppointmentsEdit: React.FC = () => {
   const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
   const id_cita = localStorage.getItem('id_cita');
   const nombre_veterinario = localStorage.getItem('nombre_veterinario');    
+  const history = useHistory();
+  const goToSettings = () => {
+    history.push('/settings');
+  };
 
   useEffect(() => {
       const fetchCita = async () => {
@@ -63,6 +71,11 @@ const AppointmentsEdit: React.FC = () => {
           <IonHeader>
               <IonToolbar className="bg-wood">
                   <IonTitle className="text-brown">Información de cita</IonTitle>
+                  <IonButtons slot="end">
+                    <IonButton onClick={goToSettings}>
+                    <IonIcon icon={settingsOutline} />
+                    </IonButton>
+                </IonButtons>
               </IonToolbar>
           </IonHeader>
           <IonContent fullscreen className="bg-wood">

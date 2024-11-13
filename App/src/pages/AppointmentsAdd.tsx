@@ -1,5 +1,7 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonInput, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { addCita, getMascotasByUser, getVet } from '../components/api';
 import { Cita, Mascota } from '../components/models';
@@ -14,7 +16,11 @@ const CitasAdd: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [veterinarios, setVeterinarios] = useState<any[]>([]);
   const client_id = Number(localStorage.getItem('client_id'));
-
+  const history = useHistory();
+  const goToSettings = () => {
+    history.push('/settings');
+  };
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,6 +70,11 @@ const CitasAdd: React.FC = () => {
       <IonHeader>
         <IonToolbar className="bg-wood">
           <IonTitle className="text-brown">Añadir Cita</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-wood">

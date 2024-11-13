@@ -1,7 +1,9 @@
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -10,6 +12,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
@@ -24,7 +27,11 @@ import { Cita, Mascota } from '../components/models';
     const history = useHistory();
     const id_cita = localStorage.getItem('id_cita');
     const nombre_veterinario = localStorage.getItem('nombre_veterinario');
-  
+
+    const goToSettings = () => {
+      history.push('/settings');
+    };
+
     useEffect(() => {
       const fetchCitas = async () => {
         if (userId) {
@@ -66,6 +73,11 @@ import { Cita, Mascota } from '../components/models';
         <IonHeader>
           <IonToolbar className="bg-wood">
             <IonTitle className="text-brown">Mis Citas</IonTitle>
+            <IonButtons slot="end">
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen className="bg-wood">

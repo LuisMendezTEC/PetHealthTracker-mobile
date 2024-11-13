@@ -1,5 +1,7 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { getMascotasByUser, updateMascota } from '../components/api';
 import { Mascota } from '../components/models';
@@ -8,6 +10,10 @@ const PetsEdit: React.FC = () => {
   const id = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
   const [mascota, setMascota] = useState<Mascota | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const history = useHistory();
+  const goToSettings = () => {
+    history.push('/settings');
+  };
 
   useEffect(() => {
     const fetchMascota = async () => {
@@ -40,6 +46,11 @@ const PetsEdit: React.FC = () => {
       <IonHeader>
         <IonToolbar className="bg-wood">
           <IonTitle className="text-brown">Mascota</IonTitle>
+          <IonButtons slot="end">
+                    <IonButton onClick={goToSettings}>
+                    <IonIcon icon={settingsOutline} />
+                    </IonButton>
+                </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-wood">
