@@ -10,6 +10,7 @@ import { Redirect, Route } from 'react-router-dom';
 import '../Tailwind.css';
 import i18n from './Config/i18n';
 import { AuthProvider } from './Context/LoginContext';
+import { ThemeProvider } from './Context/ThemeContext';
 import './images/10143477.jpg';
 import Appointments from './pages/Appointments';
 import AppointmentsAdd from './pages/AppointmentsAdd';
@@ -50,35 +51,38 @@ import './theme/variables.css';
 
 setupIonicReact();
 
+
 const App: React.FC = () => (
   <IonApp>
-    <I18nextProvider i18n={i18n}>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <AuthProvider>
-              <Route path="/PetAdd" component={PetsAdd} exact />
-              <Route path="/Dashboard" component={Dashboard} exact />
-              <Route path="/Login" component={Login} exact />
-              <Route path="/settings" component={Settings} exact />
-              <Route path="/Register" component={Register} exact />
-              <Route path="/Pets" component={Pets} exact />
-              <Route path="/Appointments" component={Appointments} exact />
-              <Route path={`/citas/${id_cita}/editar`} component={AppointmentsEdit} exact />
-              <Route path="/Diagnostics" component={Diagnostics} exact />
-              <Route path="/VaccinePets" component={VaccinePets} exact />
-              <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
-              {id_dueño ? (
-              <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
-          ) : (
-            <Redirect to="/Login" />
-          )}
-            <Redirect exact from="/" to="/Login" />
-              </AuthProvider>
-            </IonRouterOutlet>
-          </IonTabs>
-        </IonReactRouter>
-      </I18nextProvider>
+    <ThemeProvider>
+      <I18nextProvider i18n={i18n}>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <AuthProvider>
+                <Route path="/PetAdd" component={PetsAdd} exact />
+                <Route path="/Dashboard" component={Dashboard} exact />
+                <Route path="/Login" component={Login} exact />
+                <Route path="/settings" component={Settings} exact />
+                <Route path="/Register" component={Register} exact />
+                <Route path="/Pets" component={Pets} exact />
+                <Route path="/Appointments" component={Appointments} exact />
+                <Route path={`/citas/${id_cita}/editar`} component={AppointmentsEdit} exact />
+                <Route path="/Diagnostics" component={Diagnostics} exact />
+                <Route path="/VaccinePets" component={VaccinePets} exact />
+                <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
+                {id_dueño ? (
+                <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
+            ) : (
+              <Redirect to="/Login" />
+            )}
+              <Redirect exact from="/" to="/Login" />
+                </AuthProvider>
+              </IonRouterOutlet>
+            </IonTabs>
+          </IonReactRouter>
+        </I18nextProvider>
+      </ThemeProvider>
   </IonApp>
 );
 

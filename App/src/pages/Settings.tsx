@@ -1,14 +1,26 @@
-import { IonContent, IonHeader, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+// src/pages/Settings.tsx
+import {
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonSelect,
+  IonSelectOption,
+  IonTitle,
+  IonToggle,
+  IonToolbar
+} from '@ionic/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../Context/ThemeContext';
 
-export const Settings: React.FC = () => {
+const Settings: React.FC = () => {
   const { i18n, t } = useTranslation();
+  const { isDarkMode, toggleDarkMode } = useTheme();
 
   const handleLanguageChange = (lng: string) => {
-    i18n.changeLanguage(lng); // Cambia el idioma
-    localStorage.setItem('selectedLanguage', lng); // Guarda la preferencia en localStorage
-    console.log('Idioma cambiado a:', lng);
+    i18n.changeLanguage(lng);
+    localStorage.setItem('selectedLanguage', lng);
   };
 
   React.useEffect(() => {
@@ -31,6 +43,14 @@ export const Settings: React.FC = () => {
           <IonSelectOption value="en">{t("en")}</IonSelectOption>
           <IonSelectOption value="es">{t("es")}</IonSelectOption>
         </IonSelect>
+
+        <IonItem lines="none">
+          <IonLabel>{t('dark_mode')}</IonLabel>
+          <IonToggle
+            checked={isDarkMode}
+            onIonChange={toggleDarkMode}
+          />
+        </IonItem>
       </IonContent>
     </>
   );
