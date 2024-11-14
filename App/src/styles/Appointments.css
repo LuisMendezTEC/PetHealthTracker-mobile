@@ -1,0 +1,29 @@
+.bg-light-blue {
+  background-color: #E0F7FA;
+}
+
+.text-dark-blue {
+  color: #0D47A1;
+}
+
+.appointment-card {
+  background-color: #B3E5FC;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+}
+
+.view-appointment-button {
+  background: linear-gradient(to right, #4299e1, #2b6cb0);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-top: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.view-appointment-button:hover {
+  background: linear-gradient(to right, #2b6cb0, #2c5282);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
