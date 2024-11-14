@@ -1,13 +1,33 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSelect,
+  IonSelectOption,
+  IonSpinner,
+  IonTitle,
+  IonToast,
+  IonToolbar,
+} from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import '../../Tailwind.css';
 import { addCita, getMascotasByUser, getVet } from '../components/api';
 import { Cita, Mascota } from '../components/models';
+import '../styles/CitasAdd.css';
 
 const CitasAdd: React.FC = () => {
+  const { t } = useTranslation();
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [selectedMascota, setSelectedMascota] = useState<number | undefined>();
   const [fechaCita, setFechaCita] = useState('');
@@ -17,19 +37,17 @@ const CitasAdd: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [veterinarios, setVeterinarios] = useState<any[]>([]);
   const client_id = Number(localStorage.getItem('client_id'));
-  const { t } = useTranslation();
-
   const history = useHistory();
+
   const goToSettings = () => {
     history.push('/settings');
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const mascotasData = await getMascotasByUser(client_id);
         setMascotas(mascotasData);
-
         const veterinariosData = await getVet();
         setVeterinarios(veterinariosData);
       } catch (error) {
@@ -41,7 +59,7 @@ const CitasAdd: React.FC = () => {
 
   const handleAddCita = async () => {
     if (!selectedMascota || !fechaCita || !horaCita || !idVeterinario) {
-      alert("Por favor, completa todos los campos");
+      alert(t('fill_all_fields'));
       return;
     }
 
@@ -55,7 +73,6 @@ const CitasAdd: React.FC = () => {
     try {
       setLoading(true);
       await addCita(nuevaCita);
-      alert("Cita añadida con éxito");
       setSelectedMascota(undefined);
       setFechaCita('');
       setHoraCita('');
@@ -69,10 +86,10 @@ const CitasAdd: React.FC = () => {
   };
 
   return (
-    <IonPage className="bg-wood">
+    <IonPage>
       <IonHeader>
-        <IonToolbar className="bg-wood">
-          <IonTitle className="text-brown">Añadir Cita</IonTitle>
+        <IonToolbar className="bg-light-blue">
+          <IonTitle className="text-white">{t('add_appointment_title')}</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={goToSettings}>
               <IonIcon icon={settingsOutline} />
@@ -80,36 +97,36 @@ const CitasAdd: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen className="bg-wood">
+      <IonContent fullscreen className="bg-light-blue">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
           </div>
         ) : (
           <IonList className="p-6 space-y-6">
-            <IonCard className="card-bg-wood">
+            <IonCard className="card-bg-light-blue">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">{t("select_pet_label")}</IonLabel>
+                <IonLabel className="text-lg font-bold text-dark-blue">{t('select_pet_label')}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonSelect
-                  placeholder={t("select_pet_placeholder")}
+                  placeholder={t('select_pet_placeholder')}
                   value={selectedMascota}
                   onIonChange={(e) => setSelectedMascota(e.detail.value)}
                   className="border rounded-lg p-2"
                 >
                   {mascotas.map((mascota) => (
                     <IonSelectOption key={mascota.id} value={mascota.id}>
-                      {mascota.nombre_mascota} (ID: {mascota.id})
+                      {mascota.nombre_mascota}
                     </IonSelectOption>
                   ))}
                 </IonSelect>
               </IonCardContent>
             </IonCard>
 
-            <IonCard className="card-bg-wood">
+            <IonCard className="card-bg-light-blue">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">{t("appointment_date_label")}</IonLabel>
+                <IonLabel className="text-lg font-bold text-dark-blue">{t('appointment_date_label')}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -121,9 +138,9 @@ const CitasAdd: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            <IonCard className="card-bg-wood">
+            <IonCard className="card-bg-light-blue">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">{t("appointment_time_label")}</IonLabel>
+                <IonLabel className="text-lg font-bold text-dark-blue">{t('appointment_time_label')}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -135,13 +152,13 @@ const CitasAdd: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            <IonCard className="card-bg-wood">
+            <IonCard className="card-bg-light-blue">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">{t("vet_label")}</IonLabel>
+                <IonLabel className="text-lg font-bold text-dark-blue">{t('vet_label')}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonSelect
-                  placeholder={t("select_vet_placeholder")}
+                  placeholder={t('select_vet_placeholder')}
                   value={idVeterinario}
                   onIonChange={(e) => setIdVeterinario(e.detail.value)}
                   className="border rounded-lg p-2"
@@ -155,15 +172,16 @@ const CitasAdd: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            <IonButton expand="full" onClick={handleAddCita} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
-              {t("add_appointment_button")}
+            <IonButton expand="full" onClick={handleAddCita} className="styled-button-full">
+              {t('add_appointment_button')}
             </IonButton>
+
           </IonList>
         )}
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
-          message={t("appointment_added_success")}
+          message={t('appointment_added_success')}
           duration={2000}
         />
       </IonContent>

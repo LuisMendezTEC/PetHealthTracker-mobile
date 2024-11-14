@@ -1,0 +1,25 @@
+.styled-button {
+    background: linear-gradient(to right, #4299e1, #2b6cb0); /* Degradado de azul */
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none; /* Quitar el borde */
+    box-shadow: none; /* Quitar la sombra */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .styled-button:hover {
+    background: linear-gradient(to right, #2b6cb0, #2c5282); /* Degradado en hover */
+    transform: scale(1.05);
+  }
+  
+  .styled-button:active {
+    transform: scale(0.98);
+  }
+  
+  .styled-button-full {
+    width: 100%;
+    margin-top: 24px;
+  }
+  

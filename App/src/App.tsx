@@ -8,6 +8,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { I18nextProvider } from 'react-i18next';
 import { Redirect, Route } from 'react-router-dom';
 import '../Tailwind.css';
+import './App.css';
 import i18n from './Config/i18n';
 import { AuthProvider } from './Context/LoginContext';
 import { ThemeProvider } from './Context/ThemeContext';
@@ -27,6 +28,7 @@ import VaccinePets from './pages/VaccinePets';
 
 let id_dueño = localStorage.getItem('client_id');
 let id_cita = localStorage.getItem('id_cita');
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -50,7 +52,6 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 
 setupIonicReact();
-
 
 const App: React.FC = () => (
   <IonApp>

@@ -1,14 +1,14 @@
-// src/pages/Settings.tsx
 import {
   IonContent,
   IonHeader,
   IonItem,
   IonLabel,
+  IonList,
   IonSelect,
   IonSelectOption,
   IonTitle,
   IonToggle,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -35,22 +35,28 @@ const Settings: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonSelect
-          value={i18n.language}
-          placeholder={t('select_language')}
-          onIonChange={(e) => handleLanguageChange(e.detail.value)}
-        >
-          <IonSelectOption value="en">{t("en")}</IonSelectOption>
-          <IonSelectOption value="es">{t("es")}</IonSelectOption>
-        </IonSelect>
+        <IonList>
+          <IonItem>
+            <IonLabel>{t('Language')}</IonLabel>
+            <IonSelect
+              value={i18n.language}
+              placeholder={t('select_language')}
+              onIonChange={(e) => handleLanguageChange(e.detail.value)}
+              interface="popover"
+            >
+              <IonSelectOption value="en">{t('en')}</IonSelectOption>
+              <IonSelectOption value="es">{t('es')}</IonSelectOption>
+            </IonSelect>
+          </IonItem>
 
-        <IonItem lines="none">
-          <IonLabel>{t('dark_mode')}</IonLabel>
-          <IonToggle
-            checked={isDarkMode}
-            onIonChange={toggleDarkMode}
-          />
-        </IonItem>
+          <IonItem lines="none">
+            <IonLabel>{t('dark_mode')}</IonLabel>
+            <IonToggle
+              checked={isDarkMode}
+              onIonChange={toggleDarkMode}
+            />
+          </IonItem>
+        </IonList>
       </IonContent>
     </>
   );

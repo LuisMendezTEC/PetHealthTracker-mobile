@@ -75,75 +75,83 @@ const Login: React.FC = () => {
     };
 
     return (
-        <IonPage
-        
-            className="h-full w-full flex items-center justify-center bg-cover bg-center"
-            style={{ backgroundImage: `url(${backgroundImage})` }}
-        >
-                    <IonHeader>
-                <IonToolbar className="bg-wood">
-                <IonTitle className="text-brown">VetCare</IonTitle>
-                <IonButtons slot="end">
-                    <IonButton onClick={goToSettings}>
-                    <IonIcon icon={settingsOutline} />
-                    </IonButton>
-                </IonButtons>
-                </IonToolbar>
-            </IonHeader>
-            {showAnimation ? (
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <AnimationComponent onAnimationComplete={() => setShowAnimation(false)} />
-                </div>
-            ) : (
-                <IonContent className="ion-padding flex flex-col items-center justify-center w-full h-full">
-                    <div className="w-full max-w-md bg-white bg-opacity-90 rounded-lg p-8 shadow-2xl space-y-6 flex flex-col items-center">
-                        <img src={logo} alt="logo" className="w-44 h-44 mb-6 rounded-full" />
-                        <h1 className="text-3xl font-bold text-center text-gray-700 mb-4">{t("login_title")}</h1>
-                        <IonItem className="input-item flex flex-col w-full">
-                            <IonInput
-                                value={email}
-                                onIonChange={(e) => setEmail(e.detail.value!)}
-                                label={t("email_label")}
-                                labelPlacement="stacked"
-                                placeholder={t("email_placeholder")}
-                                className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            />
-                        </IonItem>
-                        <IonItem className="input-item flex flex-col w-full">
-                            <IonInput
-                                value={password}
-                                onIonChange={(e) => setPassword(e.detail.value!)}
-                                label={t("password_label")}
-                                type="password"
-                                labelPlacement="stacked"
-                                placeholder="********"
-                                className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            />
-                        </IonItem>
-                        <IonButton
-                            expand="block"
-                            className="login-button bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg mt-6 transition-all duration-200"
-                            onClick={handleLogin}
-                        >
-                            {t("login_button")}
-                        </IonButton>
-                        <IonText className="register-link text-center mt-4 text-gray-600">
-                            {t("no_account")}{' '}
-                            <Link to="/Register" className="text-blue-600 hover:underline">
-                                {t("register")}
-                            </Link>
-                        </IonText>
-                        <IonAlert
-                            isOpen={showAlert}
-                            onDidDismiss={() => setShowAlert(false)}
-                            header={t("login_error")}
-                            message={alertMessage}
-                            buttons={['OK']}
-                        />
-                    </div>
-                </IonContent>
-            )}
-        </IonPage>
+      <IonPage
+        className="h-full w-full flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
+        <IonHeader>
+          <IonToolbar className="bg-wood">
+            <IonTitle className="text-white">VetCare</IonTitle>{" "}
+            {/* Cambiado a blanco */}
+            <IonButtons slot="end">
+              <IonButton onClick={goToSettings}>
+                <IonIcon icon={settingsOutline} />
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        {showAnimation ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <AnimationComponent
+              onAnimationComplete={() => setShowAnimation(false)}
+            />
+          </div>
+        ) : (
+          <IonContent className="ion-padding flex flex-col items-center justify-center w-full h-full">
+            <div className="w-full max-w-md bg-white bg-opacity-90 rounded-lg p-8 shadow-2xl space-y-6 flex flex-col items-center">
+              <img
+                src={logo}
+                alt="logo"
+                className="w-44 h-44 mb-6 rounded-full"
+              />
+              <h1 className="text-3xl font-bold text-center text-gray-700 mb-4">
+                {t("login_title")}
+              </h1>
+              <IonItem className="input-item flex flex-col w-full">
+                <IonInput
+                  value={email}
+                  onIonChange={(e) => setEmail(e.detail.value!)}
+                  label={t("email_label")}
+                  labelPlacement="stacked"
+                  placeholder={t("email_placeholder")}
+                  className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </IonItem>
+              <IonItem className="input-item flex flex-col w-full">
+                <IonInput
+                  value={password}
+                  onIonChange={(e) => setPassword(e.detail.value!)}
+                  label={t("password_label")}
+                  type="password"
+                  labelPlacement="stacked"
+                  placeholder="********"
+                  className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </IonItem>
+              <IonButton
+                expand="block"
+                className="login-button bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg mt-6 transition-all duration-200"
+                onClick={handleLogin}
+              >
+                {t("login_button")}
+              </IonButton>
+              <IonText className="register-link text-center mt-4 text-gray-600">
+                {t("no_account")}{" "}
+                <Link to="/Register" className="text-blue-600 hover:underline">
+                  {t("register")}
+                </Link>
+              </IonText>
+              <IonAlert
+                isOpen={showAlert}
+                onDidDismiss={() => setShowAlert(false)}
+                header={t("login_error")}
+                message={alertMessage}
+                buttons={["OK"]}
+              />
+            </div>
+          </IonContent>
+        )}
+      </IonPage>
     );
 };
 
