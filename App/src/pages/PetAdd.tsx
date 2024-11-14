@@ -1,12 +1,14 @@
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { addPet } from '../components/api';
 import { Mascota } from '../components/models';
 
 const PetsAdd: React.FC = () => {
+  const { t } = useTranslation(); // Hook para traducción
   const [nombreMascota, setNombreMascota] = useState('');
   const [especie, setEspecie] = useState('');
   const [raza, setRaza] = useState('');
@@ -17,11 +19,11 @@ const PetsAdd: React.FC = () => {
   const history = useHistory();
   const goToSettings = () => {
     history.push('/settings');
-  };  
+  };
 
   const handleAddPet = async () => {
     if (!nombreMascota || !especie || !raza || !fechaNacimiento) {
-      alert("Por favor, completa todos los campos");
+      alert(t('fill_all_fields')); // Traducción
       return;
     }
 
@@ -38,7 +40,7 @@ const PetsAdd: React.FC = () => {
     try {
       setLoading(true);
       await addPet(nuevaMascota);
-      alert("Mascota añadida con éxito");
+      alert(t('pet_added_success')); // Traducción
       setNombreMascota('');
       setEspecie('');
       setRaza('');
@@ -55,12 +57,12 @@ const PetsAdd: React.FC = () => {
     <IonPage className="bg-wood">
       <IonHeader>
         <IonToolbar className="bg-wood">
-          <IonTitle className="text-brown">Añadir Mascota</IonTitle>
+          <IonTitle className="text-brown">{t('add_pet_title')}</IonTitle> {/* Traducción */}
           <IonButtons slot="end">
-                    <IonButton onClick={goToSettings}>
-                    <IonIcon icon={settingsOutline} />
-                    </IonButton>
-                </IonButtons>
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-wood">
@@ -72,14 +74,11 @@ const PetsAdd: React.FC = () => {
           <IonList className="p-6 space-y-6">
             <IonCard className="card-bg-wood"> {/* Fondo madera para el cuadro */}
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Nombre
-                 
-                </IonLabel> {/* Título café */}
-                
+                <IonLabel className="text-lg font-bold text-brown">{t('name_label')}</IonLabel> {/* Traducción */}
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
-                  placeholder='Nombre de la mascota'
+                  placeholder={t('name_placeholder')} // Traducción
                   value={nombreMascota}
                   onIonChange={(e) => setNombreMascota(e.detail.value!)}
                   className="border rounded-lg p-2"
@@ -89,11 +88,11 @@ const PetsAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Especie</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">{t('species_label')}</IonLabel> {/* Traducción */}
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
-                  placeholder='Especie de la mascota'
+                  placeholder={t('species_placeholder')} // Traducción
                   value={especie}
                   onIonChange={(e) => setEspecie(e.detail.value!)}
                   className="border rounded-lg p-2"
@@ -103,11 +102,11 @@ const PetsAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Raza</IonLabel> {/* Título café */}
+                <IonLabel className="text-lg font-bold text-brown">{t('breed_label')}</IonLabel> {/* Traducción */}
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
-                placeholder='Raza de la mascota'
+                  placeholder={t('breed_placeholder')} // Traducción
                   value={raza}
                   onIonChange={(e) => setRaza(e.detail.value!)}
                   className="border rounded-lg p-2"
@@ -117,7 +116,7 @@ const PetsAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Fecha de Nacimiento</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">{t('birthdate_label')}</IonLabel> {/* Traducción */}
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -130,14 +129,14 @@ const PetsAdd: React.FC = () => {
             </IonCard>
 
             <IonButton expand="full" onClick={handleAddPet} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
-              Añadir Mascota
+              {t('add_pet_button')} {/* Traducción */}
             </IonButton>
           </IonList>
         )}
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
-          message="Mascota añadida con éxito"
+          message={t('pet_added_success')} // Traducción
           duration={2000}
         />
       </IonContent>

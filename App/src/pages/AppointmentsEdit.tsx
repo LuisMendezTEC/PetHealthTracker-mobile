@@ -17,10 +17,12 @@ import {
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { cancelarCita, getCitaByFecha } from '../components/api'; // función API para obtener y cancelar la cita
 import { Cita } from '../components/models';
+ 
 
 const AppointmentsEdit: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,6 +30,7 @@ const AppointmentsEdit: React.FC = () => {
   const [showCancelAlert, setShowCancelAlert] = useState<boolean>(false);
   const id_cita = localStorage.getItem('id_cita');
   const nombre_veterinario = localStorage.getItem('nombre_veterinario');    
+    const { t } = useTranslation();
   const history = useHistory();
   const goToSettings = () => {
     history.push('/settings');
@@ -70,7 +73,7 @@ const AppointmentsEdit: React.FC = () => {
       <IonPage className="bg-wood">
           <IonHeader>
               <IonToolbar className="bg-wood">
-                  <IonTitle className="text-brown">Información de cita</IonTitle>
+                  <IonTitle className="text-brown">{t("appointment_info_title")}</IonTitle>
                   <IonButtons slot="end">
                     <IonButton onClick={goToSettings}>
                     <IonIcon icon={settingsOutline} />
@@ -88,21 +91,21 @@ const AppointmentsEdit: React.FC = () => {
                       <IonList className="p-6 space-y-6">
                           <IonCard className="card-bg-wood">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">Fecha</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-brown">{t("date_label")}</IonLabel>
                               </IonCardHeader>
                               <IonCardContent>{cita.fecha_cita}</IonCardContent>
                           </IonCard>
 
                           <IonCard className="card-bg-wood">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">Hora</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-brown">{t("time_label")}</IonLabel>
                               </IonCardHeader>
                               <IonCardContent>{cita.hora_cita}</IonCardContent>
                           </IonCard>
 
                           <IonCard className="card-bg-wood">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">Veterinario</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-brown">{t("vet_label")}</IonLabel>
                               </IonCardHeader>
                               <IonCardContent>{nombre_veterinario}</IonCardContent>
                           </IonCard>
@@ -113,23 +116,23 @@ const AppointmentsEdit: React.FC = () => {
                               onClick={() => setShowCancelAlert(true)}
                               className="mt-6"
                           >
-                              Cancelar cita
+                              {t("cancel_appointment_header")}
                           </IonButton>
                           <IonAlert
                               isOpen={showCancelAlert}
                               onDidDismiss={() => setShowCancelAlert(false)}
-                              header="Cancelar cita"
-                              message="¿Seguro que quieres cancelar esta cita?"
+                              header={t("cancel_appointment_button")}
+                              message={t("cancel_appointment_message")}
                               buttons={[
                                   {
-                                      text: "No",
+                                      text: (t("no")),
                                       role: "cancel",
                                       handler: () => {
                                           setShowCancelAlert(false);
                                       },
                                   },
                                   {
-                                      text: "Sí",
+                                      text: (t("yes")),
                                       handler: handleCancelCita,
                                   },
                               ]}

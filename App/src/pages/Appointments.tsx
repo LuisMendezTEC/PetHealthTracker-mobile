@@ -14,11 +14,12 @@ import {
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { getCitasByMascota, getMascotasByUser, getVetByPet } from '../components/api';
 import { Cita, Mascota } from '../components/models';
-  
+
   const Appointments: React.FC = () => {
     const [citas, setCitas] = useState<Cita[]>([]);
     const [mascotas, setMascotas] = useState<Mascota[]>([]);
@@ -27,6 +28,7 @@ import { Cita, Mascota } from '../components/models';
     const history = useHistory();
     const id_cita = localStorage.getItem('id_cita');
     const nombre_veterinario = localStorage.getItem('nombre_veterinario');
+    const { t } = useTranslation();
 
     const goToSettings = () => {
       history.push('/settings');
@@ -68,49 +70,42 @@ import { Cita, Mascota } from '../components/models';
       fetchCitas();
     }, [userId]);
   
-    return (
-      <IonPage className="bg-wood">
-        <IonHeader>
-          <IonToolbar className="bg-wood">
-            <IonTitle className="text-brown">Mis Citas</IonTitle>
-            <IonButtons slot="end">
-            <IonButton onClick={goToSettings}>
-              <IonIcon icon={settingsOutline} />
-            </IonButton>
-          </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent fullscreen className="bg-wood">
-          {loading ? (
-            <div className="flex justify-center items-center h-full">
-              <IonSpinner name="crescent" />
-            </div>
-          ) : (
-            <IonList className="p-6 space-y-6">
-              {citas.map((cita) => (
-                <IonItem
-                  key={`${cita.id_mascota}-${cita.fecha_cita}`}
-                  className="bg-white border border-gray-300 rounded-lg shadow-md p-4"
-                >
-                  <IonLabel>
-                    <h2 className="text-lg font-semibold text-brown">Fecha: {cita.fecha_cita}</h2>
-                    <p className="text-gray-600">Hora: {cita.hora_cita}</p>
-                    <p className="text-gray-600">Veterinario: {nombre_veterinario}</p>
-                  </IonLabel>
-                  <IonButton
-                    onClick={() => history.push(`/citas/${id_cita}/editar`)}
-                    className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Ver cita
-                  </IonButton>
-                </IonItem>
-              ))}
-            </IonList>
-          )}
-        </IonContent>
-      </IonPage>
-    );
-  };
+  return (
+    <IonPage className="bg-wood">
+      <IonHeader>
+        <IonToolbar className="bg-wood">
+          <IonTitle className="text-brown">{t('appointments_title')}</IonTitle>
+          <IonButtons slot="end">
+                    <IonButton onClick={goToSettings}>
+                    <IonIcon icon={settingsOutline} />
+                    </IonButton>
+                </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen className="bg-wood">
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <IonSpinner name="crescent" />
+          </div>
+        ) : (
+          <IonList className="p-6 space-y-6">
+            {citas.map((cita) => (
+              <IonItem key={`${cita.id_mascota}-${cita.fecha_cita}`}>
+                <IonLabel>
+               
+                  <h2>{t('date_label')}: {cita.fecha_cita}</h2>
+                  <p>{t('time_label')}: {cita.hora_cita}</p>
+                  <p>{t('vet_label')}: {nombre_veterinario}</p>
+                </IonLabel>
+                <IonButton>{t('view_appointment_button')}</IonButton>
+              </IonItem>
+            ))}
+          </IonList>
+        )}
+      </IonContent>
+    </IonPage>
+  );
+};
   
   export default Appointments;
   

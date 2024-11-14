@@ -1,29 +1,37 @@
-// src/pages/PageWithSettingsButton.tsx
-import { IonButton, IonButtons, IonHeader, IonIcon, IonTitle, IonToolbar } from '@ionic/react';
-import { settingsOutline } from 'ionicons/icons';
+import { IonContent, IonHeader, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-    
-export const Settings: React.FC = () => {
-  const history = useHistory();
+import { useTranslation } from 'react-i18next';
 
-  const goToSettings = () => {
-    history.push('/settings');
+export const Settings: React.FC = () => {
+  const { i18n, t } = useTranslation();
+
+  const handleLanguageChange = (lng: string) => {
+    i18n.changeLanguage(lng); // Cambia el idioma
+    localStorage.setItem('selectedLanguage', lng); // Guarda la preferencia en localStorage
+    console.log('Idioma cambiado a:', lng);
   };
+
+  React.useEffect(() => {
+    console.log('Idioma actual:', i18n.language);
+  }, [i18n.language]);
 
   return (
     <>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Configuraciones</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={goToSettings}>
-              <IonIcon icon={settingsOutline} />
-            </IonButton>
-          </IonButtons>
+          <IonTitle>{t('settings')}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      {/* Resto del contenido de la página */}
+      <IonContent>
+        <IonSelect
+          value={i18n.language}
+          placeholder={t('select_language')}
+          onIonChange={(e) => handleLanguageChange(e.detail.value)}
+        >
+          <IonSelectOption value="en">{t("en")}</IonSelectOption>
+          <IonSelectOption value="es">{t("es")}</IonSelectOption>
+        </IonSelect>
+      </IonContent>
     </>
   );
 };

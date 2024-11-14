@@ -12,10 +12,10 @@ i18n
     supportedLngs: ['en', 'es'],
     detection: {
       order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
-      caches: ['cookie'],
+      caches: ['localStorage', 'cookie'],
     },
     backend: {
-      loadPath: '/locales/{{lng}}/translation.json',
+      loadPath: `/locales/{{lng}}/translation.json`,
     },
     react: {
       useSuspense: false,

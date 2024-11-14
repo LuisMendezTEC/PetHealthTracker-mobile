@@ -14,12 +14,14 @@ import {
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next'; // Importar hook para traducción
 import { useHistory } from 'react-router-dom';
 import { getMascotasByUser } from '../components/api';
 import { Mascota } from '../components/models';
 import '../styles/Pets.css';
 
 const Pets: React.FC = () => {
+  const { t } = useTranslation(); // Hook para traducción
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const userId = localStorage.getItem('client_id'); 
@@ -35,7 +37,7 @@ const Pets: React.FC = () => {
           const data = await getMascotasByUser(Number(userId));
           setMascotas(data);
         } catch (error) {
-          console.error("Error al obtener mascotas:", error);
+          console.error(t('connection_error')); // Traducción
         } finally {
           setLoading(false);
         }
@@ -44,8 +46,7 @@ const Pets: React.FC = () => {
       }
     };
     fetchMascotas();
-  }, [userId]);
-
+  }, [userId, t]);
 
   const handleUploadImage = async (event: React.ChangeEvent<HTMLInputElement>, mascotaId: number) => {
     if (event.target.files && event.target.files[0]) {
@@ -63,15 +64,15 @@ const Pets: React.FC = () => {
           // Actualizar la mascota con la nueva URL de imagen
           setMascotas((prev) =>
             prev.map((mascota) =>
-              mascota.id === mascotaId ? { ...mascota, imagen_url: result.image_url } : mascota
+              mascota.id === mascotaId ? { ...mascota, image_url: result.image_url } : mascota
             )
           );
-          alert("Imagen subida exitosamente");
+          alert(t('image_upload_success')); // Traducción
         } else {
-          console.error("Error al subir imagen:", result.detail);
+          console.error(t('upload_error'), result.detail); // Traducción
         }
       } catch (error) {
-        console.error("Error al subir imagen:", error);
+        console.error(t('upload_error'), error); // Traducción
       }
     }
   };
@@ -80,12 +81,12 @@ const Pets: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Mis Mascotas</IonTitle>
+          <IonTitle>{t('title_pets')}</IonTitle> {/* Traducción */}
           <IonButtons slot="end">
-                    <IonButton onClick={goToSettings}>
-                    <IonIcon icon={settingsOutline} />
-                    </IonButton>
-                </IonButtons>
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -107,9 +108,9 @@ const Pets: React.FC = () => {
                   id={`file-upload-${mascota.id}`}
                 />
                 <IonButton onClick={() => document.getElementById(`file-upload-${mascota.id}`)?.click()}>
-                  Subir Imagen
+                  {t('upload_image')} {/* Traducción */}
                 </IonButton>
-                <IonButton onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>Ver mascota</IonButton>
+                <IonButton onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>{t('view_pet_button')}</IonButton> {/* Traducción */}
               </IonItem>
             ))}
           </IonList>

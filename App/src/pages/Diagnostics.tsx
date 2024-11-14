@@ -1,7 +1,8 @@
-// src/pages/MascotasPage.tsx
+// src/pages/PetsPage.tsx
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { getCitasByMascota, getDiagnosticsByPet, getMascotasByUser, getVetByPet } from '../components/api';
@@ -9,6 +10,7 @@ import { Mascota } from '../components/models';
 import '../styles/Pets.css';
 
 const Diagnostics: React.FC = () => {
+  const { t } = useTranslation();
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [diagnosticos, setDiagnosticos] = useState<{ [key: number]: any[] }>({});
   const [nombreVeterinarios, setNombreVeterinarios] = useState<{ [key: string]: string }>({});
@@ -39,35 +41,31 @@ const Diagnostics: React.FC = () => {
           for (const mascota of data) {
             for (const cita of citasPorMascota[mascota.id]) {
               const vetData = await getVetByPet(cita.id_veterinario);
-              nombreVeterinariosTemp[cita.id_veterinario] = vetData[0].nombre; // Obtiene el nombre del veterinario
+              nombreVeterinariosTemp[cita.id_veterinario] = vetData[0].nombre;
             }
           }
 
           setMascotas(data);
           setDiagnosticos(diagnosticosPorMascota);
-          setNombreVeterinarios(nombreVeterinariosTemp); // Guarda los nombres en el estado
+          setNombreVeterinarios(nombreVeterinariosTemp);
         } catch (error) {
-          console.error("Error al obtener mascotas:", error);
+          console.error(t("connection_error"), error);
         } finally {
           setLoading(false);
         }
       } else {
-        console.error("No se encontró el ID del usuario en localStorage");
+        console.error("User ID not found in localStorage");
       }
     };
     fetchMascotas();
-  }, [userId]);
+  }, [userId, t]);
 
   return (
     <IonPage className="bg-wood">
       <IonHeader>
         <IonToolbar className="bg-wood">
-          <IonTitle className="text-brown">Diagnósticos</IonTitle>
-          <IonButtons slot="end">
-                    <IonButton onClick={goToSettings}>
-                    <IonIcon icon={settingsOutline} />
-                    </IonButton>
-                </IonButtons>
+          <IonTitle className="text-brown">{t("diagnostics_title")}</IonTitle>
+          
           <IonButtons slot="end">
             <IonButton onClick={goToSettings}>
               <IonIcon icon={settingsOutline} />
@@ -91,20 +89,20 @@ const Diagnostics: React.FC = () => {
                       {diagnosticos[mascota.id].map((diagnostico) => (
                         <IonItem key={diagnostico.id} className="border-b border-gray-300">
                           <IonLabel>
-                            <h3 className="font-semibold">Fecha: {diagnostico.fecha}</h3>
-                            <p>Tipo: {diagnostico.tipo}</p>
-                            <p>Descripción: {diagnostico.descripcion}</p>
-                            <p>Veterinario: {nombreVeterinarios[diagnostico.veterinario_id] || "No disponible"}</p>
-                            <p>Resultado: {diagnostico.resultado}</p>
+                            <h3 className="font-semibold">{t("date_label")}: {diagnostico.fecha}</h3>
+                            <p>{t("type_label")}: {diagnostico.tipo}</p>
+                            <p>{t("description_label")}: {diagnostico.descripcion}</p>
+                            <p>{t("vet_label")}: {nombreVeterinarios[diagnostico.veterinario_id] || t("no_veterinarian")}</p>
+                            <p>{t("result_label")}: {diagnostico.resultado}</p>
                           </IonLabel>
                         </IonItem>
                       ))}
                     </IonList>
                   ) : (
-                    <p className="text-gray-500">No hay diagnósticos asociados a esta mascota.</p>
+                    <p className="text-gray-500">{t("no_diagnostics")}</p>
                   )}
                 </IonLabel>
-                <IonButton className="wide-button" onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}>Ver mascota</IonButton>
+                <IonButton className="wide-button" onClick={() => history.push(`/pets/${mascota.id_dueño}/edit`)}>{t("view_pet_button")}</IonButton>
               </IonItem>
             ))}
           </IonList>

@@ -1,6 +1,7 @@
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonSpinner, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import '../../Tailwind.css';
 import { addCita, getMascotasByUser, getVet } from '../components/api';
@@ -16,6 +17,8 @@ const CitasAdd: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [veterinarios, setVeterinarios] = useState<any[]>([]);
   const client_id = Number(localStorage.getItem('client_id'));
+  const { t } = useTranslation();
+
   const history = useHistory();
   const goToSettings = () => {
     history.push('/settings');
@@ -86,11 +89,11 @@ const CitasAdd: React.FC = () => {
           <IonList className="p-6 space-y-6">
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Selecciona Mascota</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">{t("select_pet_label")}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonSelect
-                  placeholder="Selecciona una mascota"
+                  placeholder={t("select_pet_placeholder")}
                   value={selectedMascota}
                   onIonChange={(e) => setSelectedMascota(e.detail.value)}
                   className="border rounded-lg p-2"
@@ -106,7 +109,7 @@ const CitasAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Fecha de Cita</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">{t("appointment_date_label")}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -120,7 +123,7 @@ const CitasAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Hora de Cita</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">{t("appointment_time_label")}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonInput
@@ -134,11 +137,11 @@ const CitasAdd: React.FC = () => {
 
             <IonCard className="card-bg-wood">
               <IonCardHeader>
-                <IonLabel className="text-lg font-bold text-brown">Veterinario</IonLabel>
+                <IonLabel className="text-lg font-bold text-brown">{t("vet_label")}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
                 <IonSelect
-                  placeholder="Selecciona un veterinario"
+                  placeholder={t("select_vet_placeholder")}
                   value={idVeterinario}
                   onIonChange={(e) => setIdVeterinario(e.detail.value)}
                   className="border rounded-lg p-2"
@@ -153,14 +156,14 @@ const CitasAdd: React.FC = () => {
             </IonCard>
 
             <IonButton expand="full" onClick={handleAddCita} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
-              Añadir Cita
+              {t("add_appointment_button")}
             </IonButton>
           </IonList>
         )}
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
-          message="Cita añadida con éxito"
+          message={t("appointment_added_success")}
           duration={2000}
         />
       </IonContent>

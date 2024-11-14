@@ -16,7 +16,6 @@ import AppointmentsAdd from './pages/AppointmentsAdd';
 import AppointmentsEdit from './pages/AppointmentsEdit';
 import Dashboard from './pages/Dashboard';
 import Diagnostics from './pages/Diagnostics';
-import Home from './pages/Home';
 import Login from './pages/Login';
 import PetsAdd from './pages/PetAdd';
 import Pets from './pages/Pets';
@@ -61,7 +60,6 @@ const App: React.FC = () => (
               <Route path="/PetAdd" component={PetsAdd} exact />
               <Route path="/Dashboard" component={Dashboard} exact />
               <Route path="/Login" component={Login} exact />
-              <Route path="/Home" component={Home} exact />
               <Route path="/settings" component={Settings} exact />
               <Route path="/Register" component={Register} exact />
               <Route path="/Pets" component={Pets} exact />
@@ -75,11 +73,11 @@ const App: React.FC = () => (
           ) : (
             <Redirect to="/Login" />
           )}
-          <Redirect exact from="/" to="/Login" />
-            </AuthProvider>
-          </IonRouterOutlet>
-        </IonTabs>
-      </IonReactRouter>
+            <Redirect exact from="/" to="/Login" />
+              </AuthProvider>
+            </IonRouterOutlet>
+          </IonTabs>
+        </IonReactRouter>
       </I18nextProvider>
   </IonApp>
 );
