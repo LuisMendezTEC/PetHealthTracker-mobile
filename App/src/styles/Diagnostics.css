@@ -1,0 +1,45 @@
+.bg-light-blue {
+  background-color: #E0F7FA;
+}
+
+.text-dark-blue {
+  color: #0D47A1;
+}
+
+.card-bg-light-blue {
+  background-color: #B3E5FC;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+}
+
+.styled-button {
+  background: linear-gradient(to right, #4299e1, #2b6cb0);
+  color: white;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.styled-button:hover {
+  background: linear-gradient(to right, #2b6cb0, #2c5282);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.styled-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.styled-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.styled-button-full {
+  width: 100%;
+  margin-top: 24px;
+}

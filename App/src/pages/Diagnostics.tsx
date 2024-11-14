@@ -1,13 +1,27 @@
-// src/pages/PetsPage.tsx
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSpinner,
+  IonTitle,
+  IonToolbar,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+} from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import '../../Tailwind.css';
 import { getCitasByMascota, getDiagnosticsByPet, getMascotasByUser, getVetByPet } from '../components/api';
 import { Mascota } from '../components/models';
-import '../styles/Pets.css';
+import '../styles/Diagnostics.css';
 
 const Diagnostics: React.FC = () => {
   const { t } = useTranslation();
@@ -20,7 +34,7 @@ const Diagnostics: React.FC = () => {
 
   const goToSettings = () => {
     history.push('/settings');
-  }
+  };
 
   useEffect(() => {
     const fetchMascotas = async () => {
@@ -61,11 +75,10 @@ const Diagnostics: React.FC = () => {
   }, [userId, t]);
 
   return (
-    <IonPage className="bg-wood">
+    <IonPage>
       <IonHeader>
-        <IonToolbar className="bg-wood">
-          <IonTitle className="text-brown">{t("diagnostics_title")}</IonTitle>
-          
+        <IonToolbar className="bg-light-blue">
+          <IonTitle className="text-white">{t("diagnostics_title")}</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={goToSettings}>
               <IonIcon icon={settingsOutline} />
@@ -73,7 +86,7 @@ const Diagnostics: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen className="bg-wood">
+      <IonContent fullscreen className="bg-light-blue">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
@@ -81,19 +94,21 @@ const Diagnostics: React.FC = () => {
         ) : (
           <IonList className="p-6 space-y-6">
             {mascotas.map((mascota) => (
-              <IonItem key={mascota.id} className="card-bg-wood rounded-lg shadow-md p-4">
-                <IonLabel className="h-64 overflow-auto">
-                  <h2 className="font-bold text-lg text-brown">{mascota.nombre_mascota}</h2>
+              <IonCard key={mascota.id} className="card-bg-light-blue">
+                <IonCardHeader>
+                  <h2 className="font-bold text-dark-blue">{mascota.nombre_mascota}</h2>
+                </IonCardHeader>
+                <IonCardContent>
                   {diagnosticos[mascota.id] && diagnosticos[mascota.id].length > 0 ? (
                     <IonList className="space-y-2 mt-2">
                       {diagnosticos[mascota.id].map((diagnostico) => (
                         <IonItem key={diagnostico.id} className="border-b border-gray-300">
                           <IonLabel>
-                            <h3 className="font-semibold">{t("date_label")}: {diagnostico.fecha}</h3>
-                            <p>{t("type_label")}: {diagnostico.tipo}</p>
-                            <p>{t("description_label")}: {diagnostico.descripcion}</p>
-                            <p>{t("vet_label")}: {nombreVeterinarios[diagnostico.veterinario_id] || t("no_veterinarian")}</p>
-                            <p>{t("result_label")}: {diagnostico.resultado}</p>
+                            <h3 className="font-semibold text-dark-blue">{t("date_label")}: {diagnostico.fecha}</h3>
+                            <p className="text-dark-blue">{t("type_label")}: {diagnostico.tipo}</p>
+                            <p className="text-dark-blue">{t("description_label")}: {diagnostico.descripcion}</p>
+                            <p className="text-dark-blue">{t("vet_label")}: {nombreVeterinarios[diagnostico.veterinario_id] || t("no_veterinarian")}</p>
+                            <p className="text-dark-blue">{t("result_label")}: {diagnostico.resultado}</p>
                           </IonLabel>
                         </IonItem>
                       ))}
@@ -101,9 +116,16 @@ const Diagnostics: React.FC = () => {
                   ) : (
                     <p className="text-gray-500">{t("no_diagnostics")}</p>
                   )}
-                </IonLabel>
-                <IonButton className="wide-button" onClick={() => history.push(`/pets/${mascota.id_dueño}/edit`)}>{t("view_pet_button")}</IonButton>
-              </IonItem>
+                  <IonButton
+                    expand="full"
+                    color="primary"
+                    onClick={() => history.push(`/pets/${mascota.id_dueño}/edit`)}
+                    className="styled-button-full"
+                  >
+                    {t("view_pet_button")}
+                  </IonButton>
+                </IonCardContent>
+              </IonCard>
             ))}
           </IonList>
         )}
