@@ -1,15 +1,26 @@
 .option-card {
-  background-color: #D2B48C; /* Café claro */
-  color: #8B4513; /* Café oscuro */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  width: 180px; /* Cambia estos valores según el tamaño que necesites */
-  height: 150px;
-  right: 10px;
+  background-color: #B3E5FC !important; /* Fondo azul claro */
+  color: #0D47A1 !important; /* Azul oscuro para el texto */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  width: 160px; /* Tamaño ligeramente más grande */
+  height: 150px; /* Tamaño ligeramente más grande */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 12px; /* Margen entre las tarjetas para mayor separación */
 }
 
 .option-card:hover {
-  background-color: #C19A6B; /* Café un poco más oscuro en hover */
-  color: #5D3A00; /* Color de texto un poco más oscuro en hover */
-  transform: scale(1.05); /* Ligeramente más grande en hover */
+  background-color: #81D4FA !important; /* Azul más oscuro en hover */
+  color: #0D47A1 !important; /* Texto azul oscuro */
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.text-dark-blue {
+  color: #0D47A1; /* Azul oscuro para el texto y los íconos */
 }

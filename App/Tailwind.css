@@ -1,30 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/** other custom global styles can go here */
+
+/** Otros estilos globales personalizados */
 .text-brown {
     color: #8B4513; /* Color café */
 }
 
-.bg-wood {
-    background-color: #DEB887; /* Color madera */
+/* Colores celestes claros */
+.text-light-blue {
+    color: #4A90E2; /* Azul claro para texto */
 }
 
-.card-bg-wood {
-    background-color: #F5DEB3; /* Color madera claro para las tarjetas */
+.bg-light-blue {
+    background-color: #E0F7FA; /* Azul claro para fondo */
+}
+
+.card-bg-light-blue {
+    background-color: #B3E5FC; /* Azul claro para fondo de tarjetas */
 }
 
 .wide-button {
     width: 30%;
     height: 30%;
-    outline: 2px solid #F5DEB3; /* Contorno */  
-    box-shadow: 0 4px 8px rgba(245, 222, 179, 0.5); /* Sombra */
-     border: 2px solid #F5DEB3; /* Color del borde */
-     background-color: #F5DEB3 ;
-}
-  
-.ion-header-pest {
-    background-color: #F5DEB3; /* Color madera claro para el header */
+    outline: 2px solid #B3E5FC; /* Contorno azul claro */
+    box-shadow: 0 4px 8px rgba(179, 229, 252, 0.5); /* Sombra azul clara */
+    border: 2px solid #B3E5FC; /* Color del borde azul claro */
+    background-color: #B3E5FC; /* Fondo azul claro */
 }
 
-.h-64 { height: 12rem; /* Altura fija de 64 unidades */ } 
+.ion-header-light-blue {
+    background-color: #B3E5FC; /* Color azul claro para el header */
+}
+
+.h-64 {
+    height: 16rem;
+}
