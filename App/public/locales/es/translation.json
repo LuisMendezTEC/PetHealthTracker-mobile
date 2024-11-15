@@ -1,9 +1,16 @@
 
     {
+        "select_language": "Idioma",
         "log_out": "Cerrar sesión",
         "dark_mode": "Modo Oscuro",
         "es": "Español",
         "en": "Inglés",
+        "it": "Italiano",
+        "fr": "Francés",
+        "he": "Hebreo",
+        "uk": "Ucraniano",
+        "al": "Alemán",
+        "po": "Portugués",
         "title_vaccine_pets": "Mis Mascotas y Vacunas",
         "settings": "Configuración",
         "loading": "Cargando...",

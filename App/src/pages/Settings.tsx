@@ -53,6 +53,12 @@ const Settings: React.FC = () => {
             >
               <IonSelectOption value="en">{t('en')}</IonSelectOption>
               <IonSelectOption value="es">{t('es')}</IonSelectOption>
+              <IonSelectOption value="it">{t('it')}</IonSelectOption>
+              <IonSelectOption value="fr">{t('fr')}</IonSelectOption>
+              <IonSelectOption value="po">{t('po')}</IonSelectOption>
+              <IonSelectOption value="al">{t('al')}</IonSelectOption>
+              <IonSelectOption value="he">{t('he')}</IonSelectOption>
+              <IonSelectOption value="uk">{t('uk')}</IonSelectOption>
             </IonSelect>
           </IonItem>
   
