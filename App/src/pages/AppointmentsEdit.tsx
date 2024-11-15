@@ -70,10 +70,10 @@ const AppointmentsEdit: React.FC = () => {
   };
 
   return (
-      <IonPage className="bg-wood">
+      <IonPage>
           <IonHeader>
-              <IonToolbar className="bg-wood">
-                  <IonTitle className="text-brown">{t("appointment_info_title")}</IonTitle>
+              <IonToolbar className="bg-light-blue">
+                  <IonTitle className="text-white">{t("appointment_info_title")}</IonTitle>
                   <IonButtons slot="end">
                     <IonButton onClick={goToSettings}>
                     <IonIcon icon={settingsOutline} />
@@ -81,7 +81,7 @@ const AppointmentsEdit: React.FC = () => {
                 </IonButtons>
               </IonToolbar>
           </IonHeader>
-          <IonContent fullscreen className="bg-wood">
+          <IonContent fullscreen className="bg-light-blue">
               {loading ? (
                   <div className="flex justify-center items-center h-full">
                       <IonSpinner name="crescent" />
@@ -89,23 +89,23 @@ const AppointmentsEdit: React.FC = () => {
               ) : (
                   cita && (
                       <IonList className="p-6 space-y-6">
-                          <IonCard className="card-bg-wood">
+                          <IonCard className="card-bg-light-blue">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">{t("date_label")}</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-dark-blue">{t("date_label")}</IonLabel>
                               </IonCardHeader>
                               <IonCardContent>{cita.fecha_cita}</IonCardContent>
                           </IonCard>
 
-                          <IonCard className="card-bg-wood">
+                          <IonCard className="card-bg-light-blue">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">{t("time_label")}</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-dark-blue">{t("time_label")}</IonLabel>
                               </IonCardHeader>
                               <IonCardContent>{cita.hora_cita}</IonCardContent>
                           </IonCard>
 
-                          <IonCard className="card-bg-wood">
+                          <IonCard className="card-bg-light-blue">
                               <IonCardHeader>
-                                  <IonLabel className="text-lg font-bold text-brown">{t("vet_label")}</IonLabel>
+                                  <IonLabel className="text-lg font-bold text-dark-blue">{t("vet_label")}</IonLabel>
                               </IonCardHeader>
                               <IonCardContent>{nombre_veterinario}</IonCardContent>
                           </IonCard>

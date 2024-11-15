@@ -44,10 +44,10 @@ const PetsEdit: React.FC = () => {
   };
 
   return (
-    <IonPage className="bg-wood">
+    <IonPage>
       <IonHeader>
-        <IonToolbar className="bg-wood">
-          <IonTitle className="text-brown">{t('title')}</IonTitle> {/* Traducción */}
+        <IonToolbar className="bg-light-blue">
+          <IonTitle className="text-white">{t('title')}</IonTitle> {/* Traducción */}
           <IonButtons slot="end">
             <IonButton onClick={goToSettings}>
               <IonIcon icon={settingsOutline} />
@@ -55,7 +55,7 @@ const PetsEdit: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen className="bg-wood">
+      <IonContent fullscreen className="bg-light-blue">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
@@ -63,9 +63,9 @@ const PetsEdit: React.FC = () => {
         ) : (
           mascota && (
             <IonList className="p-6 space-y-6">
-              <IonCard className="card-bg-wood"> {/* Fondo madera para el cuadro */}
+              <IonCard className="card-bg-light-blue"> {/* Fondo madera para el cuadro */}
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-brown">{t('name_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('name_label')}</IonLabel> {/* Traducción */}
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -76,9 +76,9 @@ const PetsEdit: React.FC = () => {
                 </IonCardContent>
               </IonCard>
 
-              <IonCard className="card-bg-wood">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-brown">{t('species_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('species_label')}</IonLabel> {/* Traducción */}
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -89,9 +89,9 @@ const PetsEdit: React.FC = () => {
                 </IonCardContent>
               </IonCard>
 
-              <IonCard className="card-bg-wood">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-brown">{t('breed_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('breed_label')}</IonLabel> {/* Traducción */}
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -102,9 +102,9 @@ const PetsEdit: React.FC = () => {
                 </IonCardContent>
               </IonCard>
 
-              <IonCard className="card-bg-wood">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-brown">{t('birthdate_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('birthdate_label')}</IonLabel> {/* Traducción */}
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput

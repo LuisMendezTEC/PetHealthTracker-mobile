@@ -1,19 +1,17 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonLabel,
   IonList,
   IonPage,
   IonSpinner,
   IonTitle,
-  IonToolbar,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
+  IonToolbar
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
@@ -53,6 +51,7 @@ const Appointments: React.FC = () => {
             localStorage.setItem('id_cita', citasData[0][0].id);
             localStorage.setItem('id_veterinario', citasData[0][0].id_veterinario);
             const id_veterinario = citasData[0][0].id_veterinario;
+            localStorage.setItem('id_mascota', citasData[0][0].id_mascota);
             const vetData = await getVetByPet(id_veterinario);
             localStorage.setItem('nombre_veterinario', vetData[0].nombre);
             setCitas(citasData.flat());
@@ -101,7 +100,7 @@ const Appointments: React.FC = () => {
                   <IonButton
                     expand="block"
                     color="primary"
-                    onClick={() => history.push(`/citas/${cita.id_mascota}/detalles`)}
+                    onClick={() => history.push(`/citas/${cita.id_mascota}/editar`)}
                     className="view-appointment-button"
                   >
                     {t('view_appointment_button')}

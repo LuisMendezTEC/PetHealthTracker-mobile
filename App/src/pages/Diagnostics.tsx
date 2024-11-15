@@ -1,6 +1,9 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
   IonContent,
   IonHeader,
   IonIcon,
@@ -11,9 +14,6 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
@@ -119,7 +119,7 @@ const Diagnostics: React.FC = () => {
                   <IonButton
                     expand="full"
                     color="primary"
-                    onClick={() => history.push(`/pets/${mascota.id_dueño}/edit`)}
+                    onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}
                     className="styled-button-full"
                   >
                     {t("view_pet_button")}

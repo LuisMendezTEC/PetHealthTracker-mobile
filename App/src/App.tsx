@@ -27,7 +27,7 @@ import Settings from './pages/Settings';
 import VaccinePets from './pages/VaccinePets';
 
 let id_dueño = localStorage.getItem('client_id');
-let id_cita = localStorage.getItem('id_cita');
+let id_mascota = localStorage.getItem('id_mascota');
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -68,7 +68,7 @@ const App: React.FC = () => (
                 <Route path="/Register" component={Register} exact />
                 <Route path="/Pets" component={Pets} exact />
                 <Route path="/Appointments" component={Appointments} exact />
-                <Route path={`/citas/${id_cita}/editar`} component={AppointmentsEdit} exact />
+                <Route path={`/citas/${id_mascota}/editar`} component={AppointmentsEdit} exact />
                 <Route path="/Diagnostics" component={Diagnostics} exact />
                 <Route path="/VaccinePets" component={VaccinePets} exact />
                 <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
