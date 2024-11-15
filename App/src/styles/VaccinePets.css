@@ -44,3 +44,9 @@
   margin-top: 24px;
 }
 
+.styled-button-full:last-child {
+  width: 50%;
+  margin-top: 24px;
+  left: 100%;
+}
+

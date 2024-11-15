@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonContent,
   IonHeader,
   IonItem,
@@ -13,6 +14,7 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../Context/ThemeContext';
+import "../styles/VaccinePets.css";
 
 const Settings: React.FC = () => {
   const { i18n, t } = useTranslation();
@@ -22,6 +24,11 @@ const Settings: React.FC = () => {
     i18n.changeLanguage(lng);
     localStorage.setItem('selectedLanguage', lng);
   };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
 
   React.useEffect(() => {
     console.log('Idioma actual:', i18n.language);
@@ -48,7 +55,7 @@ const Settings: React.FC = () => {
               <IonSelectOption value="es">{t('es')}</IonSelectOption>
             </IonSelect>
           </IonItem>
-
+  
           <IonItem lines="none">
             <IonLabel>{t('dark_mode')}</IonLabel>
             <IonToggle
@@ -56,10 +63,20 @@ const Settings: React.FC = () => {
               onIonChange={toggleDarkMode}
             />
           </IonItem>
+  
+          <IonItem lines="none">
+          <IonButton style={{ backgroundColor: '#FF7F7F', color: 'white' }} 
+            className="styled-button-full:last-child" 
+            onClick={handleLogOut} >
+            {t('log_out')} 
+          </IonButton>
+      
+          </IonItem>
         </IonList>
       </IonContent>
     </>
   );
 };
+  
 
 export default Settings;
