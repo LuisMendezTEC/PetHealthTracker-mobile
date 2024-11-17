@@ -1,5 +1,7 @@
 
     {
+        "dog": "Perro",
+        "cat": "Gato",
         "select_language": "Idioma",
         "log_out": "Cerrar sesión",
         "dark_mode": "Modo Oscuro",

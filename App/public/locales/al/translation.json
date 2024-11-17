@@ -1,4 +1,6 @@
 {
+    "dog": "Hund",
+    "cat": "Katze",
     "select_language": "Sprache auswählen",
     "log_out": "Abmelden",
     "dark_mode": "Dunkelmodus",

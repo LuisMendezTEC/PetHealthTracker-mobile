@@ -1,4 +1,6 @@
 {
+    "dog": "狗",
+    "cat": "猫",
     "select_language": "语言",
     "log_out": "登出",
     "dark_mode": "深色模式",

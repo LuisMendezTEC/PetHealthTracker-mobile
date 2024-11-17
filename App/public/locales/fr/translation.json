@@ -1,4 +1,6 @@
 {
+    "dog": "Chien",
+    "cat": "Chat",
     "select_language": "Langue",
     "log_out": "Se Déconnecter",
     "dark_mode": "Mode Sombre",

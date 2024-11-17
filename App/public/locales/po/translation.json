@@ -1,4 +1,6 @@
 {
+    "dog": "Cachorro",
+    "cat": "Gato",
     "select_language": "Idioma",
     "log_out": "Sair",
     "dark_mode": "Modo Escuro",
