@@ -44,7 +44,7 @@ const Settings: React.FC = () => {
       <IonContent>
         <IonList>
           <IonItem>
-            <IonLabel>{t('Language')}</IonLabel>
+            <IonLabel>{t('select_language')}</IonLabel>
             <IonSelect
               value={i18n.language}
               placeholder={t('select_language')}
@@ -59,6 +59,8 @@ const Settings: React.FC = () => {
               <IonSelectOption value="al">{t('al')}</IonSelectOption>
               <IonSelectOption value="he">{t('he')}</IonSelectOption>
               <IonSelectOption value="uk">{t('uk')}</IonSelectOption>
+              <IonSelectOption value="jp">{t('jp')}</IonSelectOption>
+              <IonSelectOption value="ch">{t('ch')}</IonSelectOption>
             </IonSelect>
           </IonItem>
   

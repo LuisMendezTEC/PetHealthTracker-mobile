@@ -1,4 +1,5 @@
 {
+    "select_language": "Langue",
     "log_out": "Se Déconnecter",
     "dark_mode": "Mode Sombre",
     "es": "Espagnol",
@@ -9,6 +10,8 @@
     "uk": "Ukrainien",
     "al": "Allemand",
     "po": "Portugais",
+    "jp": "Japonais",
+    "ch": "Chinois",
     "title_vaccine_pets": "Mes Animaux et Vaccins",
     "settings": "Paramètres",
     "loading": "Chargement...",

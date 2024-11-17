@@ -69,7 +69,6 @@ const Register: React.FC = () => {
             {t('register')}
           </h1>
   
-          {/* Campo de usuario */}
           <IonItem className="input-item flex flex-col">
             <IonInput
               value={username}
@@ -81,7 +80,6 @@ const Register: React.FC = () => {
             />
           </IonItem>
   
-          {/* Campo de email */}
           <IonItem className="input-item flex flex-col">
             <IonInput
               value={email}
@@ -92,9 +90,7 @@ const Register: React.FC = () => {
               className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
           </IonItem>
-  
-          {/* Campo de contraseña */}
-          <IonItem className="input-item flex flex-col">
+            <IonItem className="input-item flex flex-col">
             <IonInput
               value={password}
               onIonChange={(e) => setPassword(e.detail.value!)}
@@ -106,7 +102,6 @@ const Register: React.FC = () => {
             />
           </IonItem>
   
-          {/* Botón de registro */}
           <IonButton
             expand="block"
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg mt-4"
@@ -115,7 +110,6 @@ const Register: React.FC = () => {
             {t('complete_registration')}
           </IonButton>
   
-          {/* Enlace para iniciar sesión */}
           <IonText className="text-center mt-4">
             {t('already_have_account')}{' '}
             <a href="/Login" className="text-blue-500 hover:underline">
@@ -124,7 +118,6 @@ const Register: React.FC = () => {
           </IonText>
         </div>
   
-        {/* Alerta de registro */}
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}

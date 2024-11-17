@@ -1,4 +1,5 @@
 {
+    "select_language": "Idioma",
     "log_out": "Sair",
     "dark_mode": "Modo Escuro",
     "es": "Espanhol",
@@ -9,6 +10,8 @@
     "uk": "Ucraniano",
     "al": "Alemão",
     "po": "Português",
+    "jp": "Japonês",
+    "ch": "Chinês",
     "title_vaccine_pets": "Meus Animais e Vacinas",
     "settings": "Configurações",
     "loading": "Carregando...",
