@@ -1,4 +1,6 @@
 {
+    "dog": "Собака",
+    "cat": "Кіт",
     "select_language": "мова",
     "log_out": "Вийти",
     "dark_mode": "Темний режим",

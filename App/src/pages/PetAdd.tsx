@@ -11,6 +11,8 @@ import {
   IonLabel,
   IonList,
   IonPage,
+  IonSelect,
+  IonSelectOption,
   IonSpinner,
   IonTitle,
   IonToast,
@@ -108,12 +110,15 @@ const PetsAdd: React.FC = () => {
                 <IonLabel className="text-lg font-bold text-dark-blue">{t('species_label')}</IonLabel>
               </IonCardHeader>
               <IonCardContent>
-                <IonInput
-                  placeholder={t('species_placeholder')}
-                  value={especie}
-                  onIonChange={(e) => setEspecie(e.detail.value!)}
-                  className="border rounded-lg p-2"
-                />
+              <IonSelect
+      value={especie}
+      placeholder={t('species_placeholder')}
+      onIonChange={(e) => setEspecie(e.detail.value)}
+      className="border rounded-lg p-2"
+              >
+                <IonSelectOption value="dog">{t('dog')}</IonSelectOption>
+                <IonSelectOption value="cat">{t('cat')}</IonSelectOption>
+              </IonSelect>
               </IonCardContent>
             </IonCard>
 
