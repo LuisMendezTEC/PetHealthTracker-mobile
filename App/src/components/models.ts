@@ -19,6 +19,7 @@ export interface Mascota {
     id: number;
     fecha_vacuna: string;
     tipo_vacuna: string;
+    created_at: string; 
   }
 
   // En models.ts o en el mismo archivo si prefieres

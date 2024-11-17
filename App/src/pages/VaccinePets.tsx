@@ -1,6 +1,9 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
   IonContent,
   IonHeader,
   IonIcon,
@@ -11,9 +14,6 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
@@ -48,10 +48,14 @@ const VaccinePets: React.FC = () => {
             const vacunasDetalles = await Promise.all(
               vacunasData.map(async (vacunaRel: VacunaRel) => {
                 const vacuna = await getVaccine(vacunaRel.vacuna);
+
                 return vacuna[0];
               })
             );
             vacunasPorMascota[mascota.id] = vacunasDetalles;
+            console.log("Datos de las vacunas por cada mascota");
+            console.log(vacunasPorMascota[mascota.id]);
+            console.log(vacunasPorMascota[mascota.id].map((vacuna) => vacuna.created_at));
           }
           setVacunasByMascota(vacunasPorMascota);
         } catch (error) {
@@ -96,8 +100,9 @@ const VaccinePets: React.FC = () => {
                       {vacunasByMascota[mascota.id].map((vacuna) => (
                         <IonItem key={vacuna.id} className="border-b border-gray-300">
                           <IonLabel>
+                          
                             <h3 className="font-semibold text-dark-blue">{t('vaccine_label')}: {vacuna.tipo_vacuna}</h3>
-                            <p className="text-dark-blue">{t('date_label')}: {vacuna.fecha_vacuna}</p>
+                            <p className="text-dark-blue">{t('date_label')}: {vacuna.created_at.slice(0, 10)}</p>
                           </IonLabel>
                         </IonItem>
                       ))}
