@@ -94,7 +94,7 @@
         "appointment_date_label": "Fecha de Cita",
         "appointment_time_label": "Hora de Cita",
         "select_vet_placeholder": "Selecciona un veterinario",
-        "add_appointment_button": "Añadir Cita",
+        "add_appointment_button": "Agendar Cita",
         "appointment_added_success": "Cita añadida con éxito",
         "view_appointment_button": "Ver cita",
         "no_appointments": "No se encontraron citas."
