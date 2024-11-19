@@ -48,7 +48,6 @@ const PetsAdd: React.FC = () => {
     }
 
     const nuevaMascota: Mascota = {
-      id: Date.now(),
       nombre_mascota: nombreMascota,
       especie,
       raza,
