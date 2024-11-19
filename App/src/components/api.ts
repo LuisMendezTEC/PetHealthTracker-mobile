@@ -99,7 +99,7 @@ export const addCita = async (cita: Cita) => {
 };
 
 export const getDiagnosticsByPet = async (mascotaId: number) => {
-  const response = await fetch(`${URL}historial/cliente/${mascotaId}`, { headers });
+  const response = await fetch(`${URL}diagnosticos/historial/${mascotaId}`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener los diagnósticos de la mascota");
@@ -108,7 +108,7 @@ export const getDiagnosticsByPet = async (mascotaId: number) => {
 };
 
 export const getVaccineByPet = async (mascotaId: number): Promise<VacunaRel[]> => {
-  const response = await fetch(`${URL}vacunas_mascotas/${mascotaId}`, { headers });
+  const response = await fetch(`${URL}vacunas/mascotas/${mascotaId}`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener las vacunas de la mascota");
@@ -126,7 +126,7 @@ export const getVaccine = async (id: number) => {
 };
 
 export const getVetByPet = async (veterinario_id: number) => {
-  const response = await fetch(`${URL}veterinarios/${veterinario_id}`, { headers });
+  const response = await fetch(`${URL}funcionarios/${veterinario_id}`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario de la mascota");
@@ -135,7 +135,7 @@ export const getVetByPet = async (veterinario_id: number) => {
 };
 
 export const getVet = async () => {
-  const response = await fetch(`${URL}veterinarios`, { headers });
+  const response = await fetch(`${URL}funcionarios`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario");

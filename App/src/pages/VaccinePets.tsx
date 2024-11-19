@@ -37,36 +37,66 @@ const VaccinePets: React.FC = () => {
 
   useEffect(() => {
     const fetchMascotasYVacunas = async () => {
-      if (userId) {
-        try {
-          const data = await getMascotasByUser(Number(userId));
-          setMascotas(data);
-
-          const vacunasPorMascota: { [key: number]: Vacunas[] } = {};
-          for (const mascota of data) {
-            const vacunasData = await getVaccineByPet(mascota.id);
-            const vacunasDetalles = await Promise.all(
-              vacunasData.map(async (vacunaRel: VacunaRel) => {
-                const vacuna = await getVaccine(vacunaRel.vacuna);
-
-                return vacuna[0];
-              })
-            );
-            vacunasPorMascota[mascota.id] = vacunasDetalles;
-            console.log("Datos de las vacunas por cada mascota");
-            console.log(vacunasPorMascota[mascota.id]);
-            console.log(vacunasPorMascota[mascota.id].map((vacuna) => vacuna.created_at));
-          }
-          setVacunasByMascota(vacunasPorMascota);
-        } catch (error) {
-          console.error(t('connection_error'), error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
+      if (!userId) {
         console.error(t('fields_empty'));
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        // Obtener las mascotas del usuario
+        const mascotasData = await getMascotasByUser(Number(userId));
+        setMascotas(mascotasData);
+
+        const vacunasPorMascota: { [key: number]: Vacunas[] } = {};
+
+        // Procesar vacunas por cada mascota
+        for (const mascota of mascotasData) {
+          try {
+            const vacunasData = await getVaccineByPet(mascota.id);
+
+            // Verificar si vacunasData es un objeto
+            if (vacunasData && typeof vacunasData === 'object') {
+              const vacunaRelArray = Array.isArray(vacunasData)
+                ? vacunasData
+                : [vacunasData]; // Si no es un arreglo, lo empaquetamos
+
+              const vacunasDetalles = await Promise.all(
+                vacunaRelArray.map(async (vacunaRel: VacunaRel) => {
+                  try {
+                    const vacuna = await getVaccine(vacunaRel.vacuna);
+
+                    if (vacuna && typeof vacuna === 'object') {
+                      return vacuna; // Devuelve directamente el objeto
+                    }
+                    console.error(`Vacuna vacía o inválida para id: ${vacunaRel.vacuna}`);
+                    return null;
+                  } catch (error) {
+                    console.error(`Error al obtener detalles de vacuna ${vacunaRel.vacuna}:`, error);
+                    return null;
+                  }
+                })
+              );
+
+              // Filtrar valores nulos antes de asignar
+              vacunasPorMascota[mascota.id] = vacunasDetalles.filter((v) => v !== null);
+            } else {
+              console.error(`El formato de vacunasData no es válido para la mascota ${mascota.id}`);
+            }
+          } catch (error) {
+            console.error(`Error al obtener vacunas para la mascota ${mascota.id}:`, error);
+          }
+        }
+
+        setVacunasByMascota(vacunasPorMascota);
+      } catch (error) {
+        console.error(t('connection_error'), error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchMascotasYVacunas();
   }, [userId, t]);
 
@@ -100,9 +130,12 @@ const VaccinePets: React.FC = () => {
                       {vacunasByMascota[mascota.id].map((vacuna) => (
                         <IonItem key={vacuna.id} className="border-b border-gray-300">
                           <IonLabel>
-                          
-                            <h3 className="font-semibold text-dark-blue">{t('vaccine_label')}: {vacuna.tipo_vacuna}</h3>
-                            <p className="text-dark-blue">{t('date_label')}: {vacuna.created_at.slice(0, 10)}</p>
+                            <h3 className="font-semibold text-dark-blue">
+                              {t('vaccine_label')}: {vacuna.tipo_vacuna}
+                            </h3>
+                            <p className="text-dark-blue">
+                              {t('date_label')}: {vacuna.created_at?.slice(0, 10) || t('no_date')}
+                            </p>
                           </IonLabel>
                         </IonItem>
                       ))}
@@ -113,7 +146,7 @@ const VaccinePets: React.FC = () => {
                   <IonButton
                     expand="full"
                     color="primary"
-                    onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}
+                    onClick={() => history.push(`/mascotas/${mascota.id}/editar`)}
                     className="styled-button-full"
                   >
                     {t('view_pet_button')}

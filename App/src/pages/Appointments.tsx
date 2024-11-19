@@ -24,11 +24,10 @@ import '../styles/Appointments.css';
 const Appointments: React.FC = () => {
   const [citas, setCitas] = useState<Cita[]>([]);
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [nombreVeterinarios, setNombreVeterinarios] = useState<{ [key: number]: string }>({});
   const [loading, setLoading] = useState<boolean>(true);
   const userId = localStorage.getItem('client_id');
   const history = useHistory();
-  const id_cita = localStorage.getItem('id_cita');
-  const nombre_veterinario = localStorage.getItem('nombre_veterinario');
   const { t } = useTranslation();
 
   const goToSettings = () => {
@@ -37,38 +36,52 @@ const Appointments: React.FC = () => {
 
   useEffect(() => {
     const fetchCitas = async () => {
-      if (userId) {
-        try {
-          const mascotasData = await getMascotasByUser(Number(userId));
-          setMascotas(mascotasData);
-
-          const citasPromises = mascotasData.map((mascota: Mascota) =>
-            getCitasByMascota(mascota.id)
-          );
-          const citasData = await Promise.all(citasPromises);
-          
-          if (citasData.length > 0 && citasData[0].length > 0) {
-            localStorage.setItem('id_cita', citasData[0][0].id);
-            localStorage.setItem('id_veterinario', citasData[0][0].id_veterinario);
-            const id_veterinario = citasData[0][0].id_veterinario;
-            localStorage.setItem('id_mascota', citasData[0][0].id_mascota);
-            const vetData = await getVetByPet(id_veterinario);
-            localStorage.setItem('nombre_veterinario', vetData[0].nombre);
-            setCitas(citasData.flat());
-          } else {
-            console.warn("No se encontraron citas.");
-          }
-        } catch (error) {
-          console.error("Error al obtener las citas:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
+      if (!userId) {
         console.error("No se encontró el ID del usuario en localStorage");
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        // Obtener mascotas del usuario
+        const mascotasData = await getMascotasByUser(Number(userId));
+        setMascotas(mascotasData);
+
+        // Obtener citas por mascota
+        const citasPromises = mascotasData.map((mascota: Mascota) =>
+          getCitasByMascota(mascota.id)
+        );
+        const citasData = await Promise.all(citasPromises);
+
+        // Aplanar las citas en un solo arreglo
+        const todasCitas = citasData.flat();
+        setCitas(todasCitas);
+
+        // Obtener nombres de veterinarios
+        const vetNames: { [key: number]: string } = {};
+        for (const cita of todasCitas) {
+          if (cita.id_veterinario && !vetNames[cita.id_veterinario]) {
+            try {
+              const vetData = await getVetByPet(cita.id_veterinario);
+              vetNames[cita.id_veterinario] = vetData[0].nombre; // Suponiendo que el nombre está en vetData[0].nombre
+            } catch (error) {
+              console.error(`Error al obtener el veterinario ${cita.id_veterinario}:`, error);
+              vetNames[cita.id_veterinario] = t('unknown_vet'); // Fallback en caso de error
+            }
+          }
+        }
+
+        setNombreVeterinarios(vetNames);
+      } catch (error) {
+        console.error("Error al obtener las citas:", error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchCitas();
-  }, [userId]);
+  }, [userId, t]);
 
   return (
     <IonPage>
@@ -90,17 +103,20 @@ const Appointments: React.FC = () => {
         ) : (
           <IonList className="p-6 space-y-6">
             {citas.map((cita) => (
-              <IonCard key={`${cita.id_mascota}-${cita.fecha_cita}`} className="appointment-card">
+              <IonCard key={cita.id} className="appointment-card">
                 <IonCardHeader>
                   <h2 className="text-dark-blue font-bold">{t('date_label')}: {cita.fecha_cita}</h2>
                 </IonCardHeader>
                 <IonCardContent>
                   <p className="text-dark-blue">{t('time_label')}: {cita.hora_cita}</p>
-                  <p className="text-dark-blue">{t('vet_label')}: {nombre_veterinario}</p>
+                  <p className="text-dark-blue">
+                    {t('vet_label')}: {nombreVeterinarios[cita.id_veterinario] || t('unknown_vet')}
+                  </p>
+                  <p className="text-dark-blue">{t('reason_label')}: {cita.motivo_cita}</p>
                   <IonButton
                     expand="block"
                     color="primary"
-                    onClick={() => history.push(`/citas/${cita.id_mascota}/editar`)}
+                    onClick={() => history.push(`/citas/${cita.id}/editar`)}
                     className="view-appointment-button"
                   >
                     {t('view_appointment_button')}

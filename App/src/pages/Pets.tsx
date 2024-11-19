@@ -29,6 +29,8 @@ const Pets: React.FC = () => {
   const userId = localStorage.getItem('client_id');
   const history = useHistory();
 
+  const URL = import.meta.env.VITE_API_URL;
+
   const goToSettings = () => {
     history.push('/settings');
   };
@@ -62,7 +64,7 @@ const Pets: React.FC = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8000/upload-mascota-image/${mascotaId}`,
+          `${URL}upload/mascota-image/${mascotaId}`,
           {
             method: 'POST',
             body: formData,
