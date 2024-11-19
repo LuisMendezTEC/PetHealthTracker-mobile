@@ -51,22 +51,30 @@ const Pets: React.FC = () => {
     fetchMascotas();
   }, [userId, t]);
 
-  const handleUploadImage = async (event: React.ChangeEvent<HTMLInputElement>, mascotaId: number) => {
+  const handleUploadImage = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    mascotaId: number
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
       try {
-        const response = await fetch(`http://localhost:8000/upload-mascota-image/${mascotaId}`, {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          `http://localhost:8000/upload-mascota-image/${mascotaId}`,
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
         const result = await response.json();
         if (response.ok) {
           setMascotas((prev) =>
             prev.map((mascota) =>
-              mascota.id === mascotaId ? { ...mascota, image_url: result.image_url } : mascota
+              mascota.id === mascotaId
+                ? { ...mascota, image_url: result.image_url }
+                : mascota
             )
           );
           alert(t('image_upload_success'));
@@ -101,7 +109,9 @@ const Pets: React.FC = () => {
             {mascotas.map((mascota) => (
               <IonCard key={mascota.id} className="mascota-card">
                 <IonCardHeader>
-                  <IonCardTitle className="text-center">{mascota.nombre_mascota}</IonCardTitle>
+                  <IonCardTitle className="text-center">
+                    {mascota.nombre_mascota}
+                  </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent className="text-center">
                   {mascota.image_url && (
@@ -115,21 +125,25 @@ const Pets: React.FC = () => {
                     type="file"
                     accept="image/*"
                     onChange={(e) => handleUploadImage(e, mascota.id)}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     id={`file-upload-${mascota.id}`}
                   />
                   <IonButton
                     color="primary"
                     fill="outline"
                     className="upload-btn"
-                    onClick={() => document.getElementById(`file-upload-${mascota.id}`)?.click()}
+                    onClick={() =>
+                      document.getElementById(`file-upload-${mascota.id}`)?.click()
+                    }
                   >
                     {t('upload_image')}
                   </IonButton>
                   <IonButton
                     color="secondary"
                     className="view-btn"
-                    onClick={() => history.push(`/mascotas/${mascota.id}/editar`)}
+                    onClick={() =>
+                      history.push(`/mascotas/${mascota.id}/editar`)
+                    }
                   >
                     {t('view_pet_button')}
                   </IonButton>

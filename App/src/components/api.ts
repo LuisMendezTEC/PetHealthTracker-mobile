@@ -1,121 +1,144 @@
-// src/api.ts
-import axios from 'axios';
 import { Cita, Mascota, VacunaRel } from './models';
+
 const userId = localStorage.getItem('client_id'); 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('token');
 
+const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${token}`,
+};
 
+const URL = import.meta.env.VITE_API_URL;
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  headers:  {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json',
-  },
-});
+console.log(URL);
 
 export const getMascotasByUser = async (userId: number) => {
-  const response =  await api.get(`mascotas?id_dueño=${userId}`);
-  console.log("Arreglar");
-  console.log(response.data);   
-  console.log("UserID: "+ userId);
-  const mascotas = response.data.data.filter((mascota: Mascota) => mascota.id_dueño === userId);
-
-  return mascotas;
+  const response = await fetch(`${URL}mascotas/dueno/${userId}`, { headers });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener las mascotas del usuario");
+  }
+  return data.data;
 };
 
 export const getMascotaById = async (id: number) => {
-  const response = await api.get(`mascotas/${id}`);
-  return response.data.data;
-}
-
+  const response = await fetch(`${URL}mascotas/${id}`, { headers });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener la mascota por ID");
+  }
+  return data.data[0];
+};
 
 export const updateMascota = async (id: number, mascota: Mascota) => {
-  const response = await api.put(`mascotas/${id}/editar`, mascota);
-  console.log("EDITAR MASCOTA");  
-  console.log(response.data);
-  return response.data.data;
+  const response = await fetch(`${URL}mascotas/${id}/editar`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(mascota),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al actualizar la mascota");
+  }
+  return data.data;
 };
 
 export const addPet = async (mascota: Mascota) => {
-  console.log(mascota);
-  const response = await api.post(`mascotas/`, mascota);
-  return response.data.data;
-}
-
-export const getCitasByMascota = async (mascotaId: number) => {
-  const response = await fetch(`http://localhost:8000/citas/${mascotaId}`);
+  const response = await fetch(`${URL}mascotas/`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(mascota),
+  });
   const data = await response.json();
-    if (!response.ok) {
-        throw new Error("Error al obtener las citas de la mascota");
-    }
-    console.log("DATA");
-    console.log(data.data);
-    return data.data; 
+  if (!response.ok) {
+    throw new Error("Error al agregar la mascota");
+  }
+  return data.data;
 };
 
-  export const getCitaByFecha = async (id_cita: number) => {
-    const response = await fetch(`http://localhost:8000/citas/${id_cita}/fecha`);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error("Error al obtener la cita por fecha");
-    }
-    return data.data;
+export const getCitasByMascota = async (mascotaId: number) => {
+  const response = await fetch(`${URL}citas/${mascotaId}`, { headers });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener las citas de la mascota");
   }
+  return data.data;
+};
+
+export const getCitaByFecha = async (id_cita: number) => {
+  const response = await fetch(`${URL}citas/${id_cita}/fecha`, { headers });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener la cita por fecha");
+  }
+  return data.data;
+};
 
 export const cancelarCita = async (id: number) => {
-    const response = await fetch(`http://localhost:8000/citas/${id}/cancelar`, {
-      method: "DELETE",
-    })
-    if (!response.ok) {
-      throw new Error("Error al cancelar la cita");
-    } else {
-      return response.json();
-    }
-  };
-  
+  const response = await fetch(`${URL}citas/${id}/cancelar`, {
+    method: "DELETE",
+    headers,
+  });
+  if (!response.ok) {
+    throw new Error("Error al cancelar la cita");
+  }
+  return response.json();
+};
+
 export const addCita = async (cita: Cita) => {
-    const response = await api.post('/citas', cita);
-    return response.data.data;
-}
+  const response = await fetch(`${URL}citas/`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(cita),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al agregar la cita");
+  }
+  return data.data;
+};
 
 export const getDiagnosticsByPet = async (mascotaId: number) => {
-  const response = await fetch(`http://localhost:8000/historial/cliente/${mascotaId}`);
+  const response = await fetch(`${URL}historial/cliente/${mascotaId}`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener los diagnósticos de la mascota");
   }
   return data.data;
-}
+};
 
 export const getVaccineByPet = async (mascotaId: number): Promise<VacunaRel[]> => {
-  const response = await api.get(`/vacunas_mascotas/${mascotaId}`);
-  return response.data;
-};  
+  const response = await fetch(`${URL}vacunas_mascotas/${mascotaId}`, { headers });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("Error al obtener las vacunas de la mascota");
+  }
+  return data;
+};
 
 export const getVaccine = async (id: number) => {
-  const response = await fetch(`http://localhost:8000/vacunas/${id}`);
+  const response = await fetch(`${URL}vacunas/${id}`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener la vacuna");
   }
   return data.data;
-}
+};
 
 export const getVetByPet = async (veterinario_id: number) => {
-  const response = await fetch(`http://localhost:8000/veterinarios/${veterinario_id}`);
+  const response = await fetch(`${URL}veterinarios/${veterinario_id}`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario de la mascota");
   }
   return data.data;
-}
+};
 
 export const getVet = async () => {
-  const response = await fetch(`http://localhost:8000/veterinarios`);
+  const response = await fetch(`${URL}veterinarios`, { headers });
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario");
   }
   return data.data;
-}
+};
