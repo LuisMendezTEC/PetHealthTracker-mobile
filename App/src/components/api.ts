@@ -117,6 +117,7 @@ export const getVaccineByPet = async (mascotaId: number): Promise<VacunaRel[]> =
 };
 
 export const getVaccine = async (id: number) => {
+  console.log(id);
   const response = await fetch(`${URL}vacunas/${id}`, { headers });
   const data = await response.json();
   if (!response.ok) {
@@ -131,7 +132,7 @@ export const getVetByPet = async (veterinario_id: number) => {
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario de la mascota");
   }
-  return data.data;
+  return data.data[0];
 };
 
 export const getVet = async () => {

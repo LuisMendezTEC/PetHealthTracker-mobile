@@ -71,7 +71,7 @@ const App: React.FC = () => {
                   <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
                   <Route path="/Diagnostics" component={Diagnostics} exact />
                   <Route path="/VaccinePets" component={VaccinePets} exact />
-                  <Route path="/citas/:idMascota/editar" component={AppointmentsEdit} exact />
+                  <Route path="/citas/:id/editar" component={AppointmentsEdit} exact />
                   <Route path="/mascotas/:id/editar" component={PetsEdit} exact />
                   <Redirect exact from="/" to={id_dueño ? '/Dashboard' : '/Login'} />
                 </AuthProvider>

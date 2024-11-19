@@ -56,6 +56,8 @@ const Appointments: React.FC = () => {
 
         // Aplanar las citas en un solo arreglo
         const todasCitas = citasData.flat();
+        console.log("CITAS XD");
+        console.log(todasCitas);
         setCitas(todasCitas);
 
         // Obtener nombres de veterinarios
@@ -64,7 +66,7 @@ const Appointments: React.FC = () => {
           if (cita.id_veterinario && !vetNames[cita.id_veterinario]) {
             try {
               const vetData = await getVetByPet(cita.id_veterinario);
-              vetNames[cita.id_veterinario] = vetData[0].nombre; // Suponiendo que el nombre está en vetData[0].nombre
+              vetNames[cita.id_veterinario] = vetData.nombre; // Suponiendo que el nombre está en vetData[0].nombre
             } catch (error) {
               console.error(`Error al obtener el veterinario ${cita.id_veterinario}:`, error);
               vetNames[cita.id_veterinario] = t('unknown_vet'); // Fallback en caso de error
@@ -112,11 +114,14 @@ const Appointments: React.FC = () => {
                   <p className="text-dark-blue">
                     {t('vet_label')}: {nombreVeterinarios[cita.id_veterinario] || t('unknown_vet')}
                   </p>
-                  <p className="text-dark-blue">{t('reason_label')}: {cita.motivo_cita}</p>
                   <IonButton
                     expand="block"
                     color="primary"
-                    onClick={() => history.push(`/citas/${cita.id}/editar`)}
+                    onClick={() => {
+                      localStorage.setItem('id_cita', cita.id.toString());
+                      localStorage.setItem('nombre_veterinario', nombreVeterinarios[cita.id_veterinario]);
+                      history.push(`/citas/${cita.id}/editar`);
+                    }}
                     className="view-appointment-button"
                   >
                     {t('view_appointment_button')}

@@ -38,12 +38,14 @@ const AppointmentsEdit: React.FC = () => {
 
   useEffect(() => {
       const fetchCita = async () => {
+        console.log("id_cita");
+        console.log(id_cita);
           if (id_cita) {
               const cita_id = Number(id_cita);
               try {
                   const citaData = await getCitaByFecha(cita_id);
                   console.log("CitaData");
-                  console.log(citaData);
+                  console.log(citaData[0]);
                   setCita(citaData[0]);
               } catch (error) {
                   console.error("Error al obtener la cita:", error);

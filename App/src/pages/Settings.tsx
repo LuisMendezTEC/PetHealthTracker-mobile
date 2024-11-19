@@ -27,6 +27,10 @@ const Settings: React.FC = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('client_id');
+    localStorage.removeItem('nombre_usuario');
+    localStorage.removeItem('id_cita');
+    localStorage.removeItem('nombre_veterinario');
     window.location.reload();
   }
 

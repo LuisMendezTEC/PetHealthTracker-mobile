@@ -55,7 +55,8 @@ const Diagnostics: React.FC = () => {
           for (const mascota of data) {
             for (const cita of citasPorMascota[mascota.id]) {
               const vetData = await getVetByPet(cita.id_veterinario);
-              nombreVeterinariosTemp[cita.id_veterinario] = vetData[0].nombre;
+              console.log(vetData);
+              nombreVeterinariosTemp[cita.id_veterinario] = vetData.nombre;
             }
           }
 

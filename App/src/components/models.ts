@@ -9,6 +9,7 @@ export interface Mascota {
   }
 
   export interface Cita {
+    id: number,
     id_mascota: number;
     fecha_cita: string;
     id_veterinario: number; 
@@ -22,7 +23,6 @@ export interface Mascota {
     created_at: string; 
   }
 
-  // En models.ts o en el mismo archivo si prefieres
 export interface VacunaRel {
   id: number;
   create_at: string;

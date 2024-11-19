@@ -20,7 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { getMascotasByUser, getVaccine, getVaccineByPet } from '../components/api';
-import { Mascota, VacunaRel, Vacunas } from '../components/models';
+import { Mascota, Vacunas } from '../components/models';
 import '../styles/VaccinePets.css';
 
 const VaccinePets: React.FC = () => {
@@ -41,64 +41,73 @@ const VaccinePets: React.FC = () => {
         console.error(t('fields_empty'));
         return;
       }
-
+  
       try {
         setLoading(true);
-
+  
         // Obtener las mascotas del usuario
         const mascotasData = await getMascotasByUser(Number(userId));
         setMascotas(mascotasData);
-
+  
         const vacunasPorMascota: { [key: number]: Vacunas[] } = {};
-
-        // Procesar vacunas por cada mascota
+  
         for (const mascota of mascotasData) {
           try {
+            console.log("ID DE LA MASCOTA: ", mascota.id);
             const vacunasData = await getVaccineByPet(mascota.id);
-
-            // Verificar si vacunasData es un objeto
-            if (vacunasData && typeof vacunasData === 'object') {
-              const vacunaRelArray = Array.isArray(vacunasData)
-                ? vacunasData
-                : [vacunasData]; // Si no es un arreglo, lo empaquetamos
-
-              const vacunasDetalles = await Promise.all(
-                vacunaRelArray.map(async (vacunaRel: VacunaRel) => {
-                  try {
-                    const vacuna = await getVaccine(vacunaRel.vacuna);
-
-                    if (vacuna && typeof vacuna === 'object') {
-                      return vacuna; // Devuelve directamente el objeto
-                    }
-                    console.error(`Vacuna vacía o inválida para id: ${vacunaRel.vacuna}`);
-                    return null;
-                  } catch (error) {
-                    console.error(`Error al obtener detalles de vacuna ${vacunaRel.vacuna}:`, error);
-                    return null;
+  
+            // Asegurar que vacunasData es un array
+            const vacunaRelArray = Array.isArray(vacunasData)
+              ? vacunasData
+              : [vacunasData]; // Convertir a array si no lo es
+  
+  
+            // Obtener detalles de cada vacuna relacionada
+            const vacunasDetalles = await Promise.all(
+              vacunaRelArray.map(async (vacunaRel) => {
+                try {
+                  // Procesar cada ID de vacuna en `vacunaRel.data`
+                  if (vacunaRel.data && Array.isArray(vacunaRel.data)) {
+                    const detallesVacunas = await Promise.all(
+                      vacunaRel.data.map(async (vacunaItem: { id: number }) => {
+                        const vacuna = await getVaccine(vacunaItem.id);
+                        return vacuna || null; // Devuelve vacuna o null si no es válida
+                      })
+                    );
+  
+                    // Filtrar resultados nulos
+                    return detallesVacunas.filter((v) => v !== null);
                   }
-                })
-              );
-
-              // Filtrar valores nulos antes de asignar
-              vacunasPorMascota[mascota.id] = vacunasDetalles.filter((v) => v !== null);
-            } else {
-              console.error(`El formato de vacunasData no es válido para la mascota ${mascota.id}`);
-            }
+  
+                  console.error("Formato inesperado en vacunaRel.data: ", vacunaRel.data);
+                  return [];
+                } catch (error) {
+                  console.error(`Error al obtener detalles de vacuna:`, error);
+                  return [];
+                }
+              })
+            );
+  
+            // Aplanar el array de arrays (en caso de que existan múltiples arrays internos)
+            const vacunasFlat = vacunasDetalles.flat();
+            vacunasByMascota[mascota.id] = vacunasFlat;
           } catch (error) {
             console.error(`Error al obtener vacunas para la mascota ${mascota.id}:`, error);
           }
         }
-
-        setVacunasByMascota(vacunasPorMascota);
+  
+        setVacunasByMascota(vacunasByMascota);
+        console.log("VACUNAS POR MASCOTA: ", vacunasByMascota);
       } catch (error) {
         console.error(t('connection_error'), error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchMascotasYVacunas();
   }, [userId, t]);
+  
 
   return (
     <IonPage>
@@ -121,38 +130,30 @@ const VaccinePets: React.FC = () => {
           <IonList className="p-6 space-y-6">
             {mascotas.map((mascota) => (
               <IonCard key={mascota.id} className="card-bg-light-blue">
-                <IonCardHeader>
-                  <h2 className="font-bold text-dark-blue">{mascota.nombre_mascota}</h2>
-                </IonCardHeader>
-                <IonCardContent>
-                  {vacunasByMascota[mascota.id] && vacunasByMascota[mascota.id].length > 0 ? (
-                    <IonList className="space-y-2 mt-2">
-                      {vacunasByMascota[mascota.id].map((vacuna) => (
-                        <IonItem key={vacuna.id} className="border-b border-gray-300">
-                          <IonLabel>
-                            <h3 className="font-semibold text-dark-blue">
-                              {t('vaccine_label')}: {vacuna.tipo_vacuna}
-                            </h3>
-                            <p className="text-dark-blue">
-                              {t('date_label')}: {vacuna.created_at?.slice(0, 10) || t('no_date')}
-                            </p>
-                          </IonLabel>
-                        </IonItem>
-                      ))}
-                    </IonList>
-                  ) : (
-                    <p className="text-gray-500">{t('no_vaccines')}</p>
-                  )}
-                  <IonButton
-                    expand="full"
-                    color="primary"
-                    onClick={() => history.push(`/mascotas/${mascota.id}/editar`)}
-                    className="styled-button-full"
-                  >
-                    {t('view_pet_button')}
-                  </IonButton>
-                </IonCardContent>
-              </IonCard>
+  <IonCardHeader>
+    <h2 className="font-bold text-dark-blue">{mascota.nombre_mascota}</h2>
+  </IonCardHeader>
+  <IonCardContent>
+    {vacunasByMascota[mascota.id] && vacunasByMascota[mascota.id].length > 0 ? (
+      <IonList className="space-y-2 mt-2">
+        {vacunasByMascota[mascota.id].map((vacuna) => (
+          <IonItem key={vacuna.id} className="border-b border-gray-300">
+            <IonLabel>
+              <h3 className="font-semibold text-dark-blue">
+                {t('vaccine_label')}: {vacuna[0].tipo_vacuna || t('unknown_vaccine')}
+              </h3>
+              <p className="text-dark-blue">
+                {t('date_label')}: {vacuna[0].created_at?.slice(0, 10) || t('no_date')}
+              </p>
+            </IonLabel>
+          </IonItem>
+        ))}
+      </IonList>
+    ) : (
+      <p className="text-gray-500">{t('no_vaccines')}</p>
+    )}
+  </IonCardContent>
+</IonCard>
             ))}
           </IonList>
         )}
