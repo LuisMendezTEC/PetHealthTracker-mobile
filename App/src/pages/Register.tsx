@@ -15,6 +15,7 @@ const Register: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const history = useHistory();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const goToSettings = () => {
     history.push('/settings');
@@ -25,7 +26,7 @@ const Register: React.FC = () => {
 
     if (username && email && password) {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/clientes/', {
+        const response = await axios.post(`${apiUrl}clientes/agregar`, {
           nombre_usuario: username,
           correo: email,
           contraseña: password,

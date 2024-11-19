@@ -15,7 +15,8 @@ import {
   useIonToast,
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useParams } from 'react-router-dom';
 import { getMascotaById, updateMascota } from '../components/api';
 import { Mascota } from '../components/models';
 
@@ -25,6 +26,7 @@ const PetsEdit: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [presentToast] = useIonToast();
   const history = useHistory();
+  const { t } = useTranslation();
 
   // Carga inicial de datos de la mascota
   useEffect(() => {
@@ -52,14 +54,14 @@ const PetsEdit: React.FC = () => {
       try {
         await updateMascota(mascota.id, mascota);
         presentToast({
-          message: 'Mascota actualizada correctamente.',
+          message: t('update_pet'),
           duration: 3000,
           color: 'success',
         });
         history.push('/Pets'); // Redirige a la lista de mascotas
       } catch (error) {
         presentToast({
-          message: 'Error al actualizar la mascota.',
+          message: t('update_error'),
           duration: 3000,
           color: 'danger',
         });
@@ -71,7 +73,7 @@ const PetsEdit: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Editar Mascota</IonTitle>
+          <IonTitle>{t('pets_description')}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -85,7 +87,7 @@ const PetsEdit: React.FC = () => {
               {/* Campo: Nombre de la mascota */}
               <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">Nombre</IonLabel>
+                  <IonLabel className="text-lg font-bold text-blue-500">{t('name_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -100,7 +102,7 @@ const PetsEdit: React.FC = () => {
               {/* Campo: Especie */}
               <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">Especie</IonLabel>
+                  <IonLabel className="text-lg font-bold text-blue-500">{t('species_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -115,7 +117,7 @@ const PetsEdit: React.FC = () => {
               {/* Campo: Raza */}
               <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">Raza</IonLabel>
+                  <IonLabel className="text-lg font-bold text-blue-500">{t('breed_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -130,7 +132,7 @@ const PetsEdit: React.FC = () => {
               {/* Campo: Fecha de nacimiento */}
               <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">Fecha de Nacimiento</IonLabel>
+                  <IonLabel className="text-lg font-bold text-blue-500">{t('birthdate_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -148,7 +150,7 @@ const PetsEdit: React.FC = () => {
 
               {/* Botón para guardar */}
               <IonButton expand="full" onClick={handleUpdate} className="mt-6">
-                Guardar
+                {t('save')}
               </IonButton>
             </IonList>
           )
