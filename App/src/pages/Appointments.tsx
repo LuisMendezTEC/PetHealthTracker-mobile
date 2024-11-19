@@ -56,8 +56,6 @@ const Appointments: React.FC = () => {
 
         // Aplanar las citas en un solo arreglo
         const todasCitas = citasData.flat();
-        console.log("CITAS XD");
-        console.log(todasCitas);
         setCitas(todasCitas);
 
         // Obtener nombres de veterinarios
@@ -66,7 +64,7 @@ const Appointments: React.FC = () => {
           if (cita.id_veterinario && !vetNames[cita.id_veterinario]) {
             try {
               const vetData = await getVetByPet(cita.id_veterinario);
-              vetNames[cita.id_veterinario] = vetData.nombre; // Suponiendo que el nombre está en vetData[0].nombre
+              vetNames[cita.id_veterinario] = vetData.nombre; // Suponiendo que el nombre está en vetData.nombre
             } catch (error) {
               console.error(`Error al obtener el veterinario ${cita.id_veterinario}:`, error);
               vetNames[cita.id_veterinario] = t('unknown_vet'); // Fallback en caso de error
@@ -104,31 +102,35 @@ const Appointments: React.FC = () => {
           </div>
         ) : (
           <IonList className="p-6 space-y-6">
-            {citas.map((cita) => (
-              <IonCard key={cita.id} className="appointment-card">
-                <IonCardHeader>
-                  <h2 className="text-dark-blue font-bold">{t('date_label')}: {cita.fecha_cita}</h2>
-                </IonCardHeader>
-                <IonCardContent>
-                  <p className="text-dark-blue">{t('time_label')}: {cita.hora_cita}</p>
-                  <p className="text-dark-blue">
-                    {t('vet_label')}: {nombreVeterinarios[cita.id_veterinario] || t('unknown_vet')}
-                  </p>
-                  <IonButton
-                    expand="block"
-                    color="primary"
-                    onClick={() => {
-                      localStorage.setItem('id_cita', cita.id.toString());
-                      localStorage.setItem('nombre_veterinario', nombreVeterinarios[cita.id_veterinario]);
-                      history.push(`/citas/${cita.id}/editar`);
-                    }}
-                    className="view-appointment-button"
-                  >
-                    {t('view_appointment_button')}
-                  </IonButton>
-                </IonCardContent>
-              </IonCard>
-            ))}
+            {citas.map((cita) => {
+              // Buscar el nombre de la mascota asociada a esta cita
+              const mascota = mascotas.find((m) => m.id === cita.id_mascota); // Asegúrate de que 'id_mascota' sea el nombre correcto
+
+              return (
+                <IonCard key={cita.id} className="appointment-card">
+                  <IonCardHeader>
+                    <h2 className="text-dark-blue font-bold">{t('date_label')}: {cita.fecha_cita}</h2>
+                  </IonCardHeader>
+                  <IonCardContent>
+                    <p className="text-dark-blue">{t('time_label')}: {cita.hora_cita}</p>
+                    <p className="text-dark-blue">{t('pet_label')}: {mascota?.nombre_mascota || t('unknown_pet')}</p>
+                    <p className="text-dark-blue">{t('vet_label')}: {nombreVeterinarios[cita.id_veterinario] || t('unknown_vet')}</p>
+                    <IonButton
+                      expand="block"
+                      color="primary"
+                      onClick={() => {
+                        localStorage.setItem('id_cita', cita.id.toString());
+                        localStorage.setItem('nombre_veterinario', nombreVeterinarios[cita.id_veterinario]);
+                        history.push(`/citas/${cita.id}/editar`);
+                      }}
+                      className="view-appointment-button"
+                    >
+                      {t('view_appointment_button')}
+                    </IonButton>
+                  </IonCardContent>
+                </IonCard>
+              );
+            })}
           </IonList>
         )}
       </IonContent>

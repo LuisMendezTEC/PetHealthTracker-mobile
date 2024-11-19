@@ -44,6 +44,7 @@ export const updateMascota = async (id: number, mascota: Mascota) => {
 };
 
 export const addPet = async (mascota: Mascota) => {
+  console.log(token);
   const response = await fetch(`${URL}mascotas/`, {
     method: "POST",
     headers,
