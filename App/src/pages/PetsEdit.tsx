@@ -1,44 +1,51 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
-import { settingsOutline } from 'ionicons/icons';
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonHeader,
+  IonInput,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSpinner,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next'; // Importar hook para traducción
-import { useHistory } from 'react-router-dom';
-import '../../Tailwind.css';
-import { getMascotasByUser, updateMascota } from '../components/api';
+import { useParams } from 'react-router-dom';
+import { getMascotaById, updateMascota } from '../components/api'; // Asegúrate de tener esta función en tu API
 import { Mascota } from '../components/models';
 
 const PetsEdit: React.FC = () => {
-  const { t } = useTranslation(); // Hook para traducción
-  const id = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
+  const { idMascota } = useParams<{ idMascota: string }>(); // Obtener ID de la mascota desde la URL
   const [mascota, setMascota] = useState<Mascota | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const history = useHistory();
-  const goToSettings = () => {
-    history.push('/settings');
-  };
 
   useEffect(() => {
     const fetchMascota = async () => {
       try {
-        const mascotas = await getMascotasByUser(Number(id));
-        console.log("Mascotas");
-        setMascota(mascotas[0]);
+        const data = await getMascotaById(Number(idMascota)); // Llamada específica para obtener una mascota
+        console.log("DATA PRUEBA");
+        console.log(data);
+        setMascota(data);
       } catch (error) {
-        console.error(t('connection_error')); // Traducción
+        console.error('Error al obtener la mascota:', error);
       } finally {
         setLoading(false);
       }
     };
     fetchMascota();
-  }, [id, t]);
+  }, [idMascota]);
 
   const handleUpdate = async () => {
     if (mascota) {
       try {
-        await updateMascota(mascota.id, mascota);
-        alert(t('update_pet')); // Traducción
+        await updateMascota(mascota.id, mascota); // Asegúrate de que `id` sea correcto
+        alert('Mascota actualizada');
       } catch (error) {
-        console.error(t('update_error'), error); // Traducción
+        console.error('Error al actualizar la mascota:', error);
       }
     }
   };
@@ -46,16 +53,11 @@ const PetsEdit: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="bg-light-blue">
-          <IonTitle className="text-white">{t('title')}</IonTitle> {/* Traducción */}
-          <IonButtons slot="end">
-            <IonButton onClick={goToSettings}>
-              <IonIcon icon={settingsOutline} />
-            </IonButton>
-          </IonButtons>
+        <IonToolbar>
+          <IonTitle>Editar Mascota</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen className="bg-light-blue">
+      <IonContent fullscreen>
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
@@ -63,60 +65,56 @@ const PetsEdit: React.FC = () => {
         ) : (
           mascota && (
             <IonList className="p-6 space-y-6">
-              <IonCard className="card-bg-light-blue"> {/* Fondo madera para el cuadro */}
+              <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-dark-blue">{t('name_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-blue-500">Nombre</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
                     value={mascota.nombre_mascota}
                     onIonChange={(e) => setMascota({ ...mascota, nombre_mascota: e.detail.value! })}
-                    className="border rounded-lg p-2"
                   />
                 </IonCardContent>
               </IonCard>
 
-              <IonCard className="card-bg-light-blue">
+              <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-dark-blue">{t('species_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-blue-500">Especie</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
                     value={mascota.especie}
                     onIonChange={(e) => setMascota({ ...mascota, especie: e.detail.value! })}
-                    className="border rounded-lg p-2"
                   />
                 </IonCardContent>
               </IonCard>
 
-              <IonCard className="card-bg-light-blue">
+              <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-dark-blue">{t('breed_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-blue-500">Raza</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
                     value={mascota.raza}
                     onIonChange={(e) => setMascota({ ...mascota, raza: e.detail.value! })}
-                    className="border rounded-lg p-2"
                   />
                 </IonCardContent>
               </IonCard>
 
-              <IonCard className="card-bg-light-blue">
+              <IonCard className="bg-blue-50">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-dark-blue">{t('birthdate_label')}</IonLabel> {/* Traducción */}
+                  <IonLabel className="text-lg font-bold text-blue-500">Fecha de Nacimiento</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
                     value={mascota.fecha_nacimiento}
                     onIonChange={(e) => setMascota({ ...mascota, fecha_nacimiento: e.detail.value! })}
-                    className="border rounded-lg p-2"
                   />
                 </IonCardContent>
               </IonCard>
 
-              <IonButton expand="full" onClick={handleUpdate} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
-                {t('save')} {/* Traducción */}
+              <IonButton expand="full" onClick={handleUpdate} className="mt-6">
+                Guardar
               </IonButton>
             </IonList>
           )

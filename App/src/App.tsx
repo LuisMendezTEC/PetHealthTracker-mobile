@@ -72,8 +72,8 @@ const App: React.FC = () => (
                 <Route path="/Diagnostics" component={Diagnostics} exact />
                 <Route path="/VaccinePets" component={VaccinePets} exact />
                 <Route path="/AppointmentsAdd" component={AppointmentsAdd} exact />
-                {id_dueño ? (
-                <Route path={`/mascotas/${id_dueño}/editar`} component={PetsEdit} exact />
+                {id_mascota ? (
+                <Route path={`/mascotas/${id_mascota}/editar`} component={PetsEdit} exact />
             ) : (
               <Redirect to="/Login" />
             )}

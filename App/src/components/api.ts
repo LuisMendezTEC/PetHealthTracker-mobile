@@ -1,18 +1,21 @@
 // src/api.ts
 import axios from 'axios';
 import { Cita, Mascota, VacunaRel } from './models';
-const userId = localStorage.getItem('client_id'); // Obtiene el ID del usuario logueado correctamente
+const userId = localStorage.getItem('client_id'); 
+const token = localStorage.getItem('token')
+
 
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000', // Cambia esto a tu base URL real
-  headers: {
+  baseURL: import.meta.env.VITE_API_URL,
+  headers:  {
+    'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json',
   },
 });
 
 export const getMascotasByUser = async (userId: number) => {
-  const response = await api.get(`/mascotas?id_dueño=${userId}`);
+  const response =  await api.get(`mascotas?id_dueño=${userId}`);
   console.log("Arreglar");
   console.log(response.data);   
   console.log("UserID: "+ userId);
@@ -21,14 +24,22 @@ export const getMascotasByUser = async (userId: number) => {
   return mascotas;
 };
 
+export const getMascotaById = async (id: number) => {
+  const response = await api.get(`mascotas/${id}`);
+  return response.data.data;
+}
+
 
 export const updateMascota = async (id: number, mascota: Mascota) => {
-  const response = await api.put(`/mascotas/${id}/editar`, mascota);
+  const response = await api.put(`mascotas/${id}/editar`, mascota);
+  console.log("EDITAR MASCOTA");  
+  console.log(response.data);
   return response.data.data;
 };
 
 export const addPet = async (mascota: Mascota) => {
-  const response = await api.post(`/mascotas`, mascota);
+  console.log(mascota);
+  const response = await api.post(`mascotas/`, mascota);
   return response.data.data;
 }
 

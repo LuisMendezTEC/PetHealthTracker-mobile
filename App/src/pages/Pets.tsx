@@ -1,6 +1,10 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
@@ -9,10 +13,6 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
-  IonCard,
-  IonCardHeader,
-  IonCardContent,
-  IonCardTitle,
 } from '@ionic/react';
 import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
@@ -129,7 +129,7 @@ const Pets: React.FC = () => {
                   <IonButton
                     color="secondary"
                     className="view-btn"
-                    onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}
+                    onClick={() => history.push(`/mascotas/${mascota.id}/editar`)}
                   >
                     {t('view_pet_button')}
                   </IonButton>

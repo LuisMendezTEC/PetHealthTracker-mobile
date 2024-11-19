@@ -29,6 +29,8 @@ const Login: React.FC = () => {
     const goToSettings = () => {
         history.push('/settings');
     }
+    const apiUrl = import.meta.env.VITE_API_URL;
+
 
 
     useEffect(() => {
@@ -45,7 +47,7 @@ const Login: React.FC = () => {
 
         if (email && password) {
             try {
-                const response = await axios.post('http://127.0.0.1:8000/login/', {
+                const response = await axios.post(`${apiUrl}auth/login`, {
                     correo: email,
                     contraseña: password,
                     role: 'cliente',
@@ -56,7 +58,7 @@ const Login: React.FC = () => {
 
                     // Limpiar el email guardado temporalmente después de un inicio de sesión exitoso
                     localStorage.removeItem('temp_email');
-
+                    localStorage.setItem('token', response.data.access_token);
                     login(response.data.access_token, response.data.id);
                     setAlertMessage('Inicio de sesión exitoso.');
                     localStorage.setItem('nombre_usuario', decodedToken.nombre);
