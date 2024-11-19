@@ -41,73 +41,59 @@ const VaccinePets: React.FC = () => {
         console.error(t('fields_empty'));
         return;
       }
-  
+
       try {
         setLoading(true);
-  
+
         // Obtener las mascotas del usuario
         const mascotasData = await getMascotasByUser(Number(userId));
         setMascotas(mascotasData);
-  
+
         const vacunasPorMascota: { [key: number]: Vacunas[] } = {};
-  
-        for (const mascota of mascotasData) {
-          try {
-            console.log("ID DE LA MASCOTA: ", mascota.id);
-            const vacunasData = await getVaccineByPet(mascota.id);
-  
-            // Asegurar que vacunasData es un array
-            const vacunaRelArray = Array.isArray(vacunasData)
-              ? vacunasData
-              : [vacunasData]; // Convertir a array si no lo es
-  
-  
-            // Obtener detalles de cada vacuna relacionada
-            const vacunasDetalles = await Promise.all(
-              vacunaRelArray.map(async (vacunaRel) => {
-                try {
-                  // Procesar cada ID de vacuna en `vacunaRel.data`
-                  if (vacunaRel.data && Array.isArray(vacunaRel.data)) {
-                    const detallesVacunas = await Promise.all(
-                      vacunaRel.data.map(async (vacunaItem: { id: number }) => {
-                        const vacuna = await getVaccine(vacunaItem.id);
-                        return vacuna || null; // Devuelve vacuna o null si no es válida
-                      })
-                    );
-  
-                    // Filtrar resultados nulos
-                    return detallesVacunas.filter((v) => v !== null);
+
+        await Promise.all(
+          mascotasData.map(async (mascota) => {
+            try {
+              const vacunasRelResponse = await getVaccineByPet(mascota.id);
+              const vacunasRel = vacunasRelResponse.data; // Obtener la propiedad `data`
+
+              if (!Array.isArray(vacunasRel)) {
+                vacunasPorMascota[mascota.id] = [];
+                return;
+              }
+
+              // Obtener detalles de cada vacuna en paralelo
+              const detallesVacunas = await Promise.all(
+                vacunasRel.map(async (vacunaRel) => {
+                  try {
+                    const vacunaDetailsResponse = await getVaccine(vacunaRel.vacuna); // Usar el campo `vacuna` para obtener detalles
+                    return vacunaDetailsResponse[0].tipo_vacuna; // Acceder al detalle desde `data`
+                  } catch (error) {
+                    console.error(`Error al obtener la vacuna con ID ${vacunaRel.vacuna}:`, error);
+                    return null;
                   }
-  
-                  console.error("Formato inesperado en vacunaRel.data: ", vacunaRel.data);
-                  return [];
-                } catch (error) {
-                  console.error(`Error al obtener detalles de vacuna:`, error);
-                  return [];
-                }
-              })
-            );
-  
-            // Aplanar el array de arrays (en caso de que existan múltiples arrays internos)
-            const vacunasFlat = vacunasDetalles.flat();
-            vacunasByMascota[mascota.id] = vacunasFlat;
-          } catch (error) {
-            console.error(`Error al obtener vacunas para la mascota ${mascota.id}:`, error);
-          }
-        }
-  
-        setVacunasByMascota(vacunasByMascota);
-        console.log("VACUNAS POR MASCOTA: ", vacunasByMascota);
+                })
+              );
+
+              // Filtrar resultados nulos y asignar a la mascota
+              vacunasPorMascota[mascota.id] = detallesVacunas.filter((v) => v !== null);
+            } catch (error) {
+              console.error(`Error al obtener vacunas para la mascota ${mascota.id}:`, error);
+              vacunasPorMascota[mascota.id] = [];
+            }
+          })
+        );
+
+        setVacunasByMascota(vacunasPorMascota);
       } catch (error) {
         console.error(t('connection_error'), error);
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchMascotasYVacunas();
   }, [userId, t]);
-  
 
   return (
     <IonPage>
@@ -130,30 +116,31 @@ const VaccinePets: React.FC = () => {
           <IonList className="p-6 space-y-6">
             {mascotas.map((mascota) => (
               <IonCard key={mascota.id} className="card-bg-light-blue">
-  <IonCardHeader>
-    <h2 className="font-bold text-dark-blue">{mascota.nombre_mascota}</h2>
-  </IonCardHeader>
-  <IonCardContent>
-    {vacunasByMascota[mascota.id] && vacunasByMascota[mascota.id].length > 0 ? (
-      <IonList className="space-y-2 mt-2">
-        {vacunasByMascota[mascota.id].map((vacuna) => (
-          <IonItem key={vacuna.id} className="border-b border-gray-300">
-            <IonLabel>
-              <h3 className="font-semibold text-dark-blue">
-                {t('vaccine_label')}: {vacuna[0].tipo_vacuna || t('unknown_vaccine')}
-              </h3>
-              <p className="text-dark-blue">
-                {t('date_label')}: {vacuna[0].created_at?.slice(0, 10) || t('no_date')}
-              </p>
-            </IonLabel>
-          </IonItem>
-        ))}
-      </IonList>
-    ) : (
-      <p className="text-gray-500">{t('no_vaccines')}</p>
-    )}
-  </IonCardContent>
-</IonCard>
+                <IonCardHeader>
+                  <h2 className="font-bold text-dark-blue">{mascota.nombre_mascota}</h2>
+                </IonCardHeader>
+                <IonCardContent>
+                  {vacunasByMascota[mascota.id] && vacunasByMascota[mascota.id].length > 0 ? (
+                    <IonList className="space-y-2 mt-2">
+                      {vacunasByMascota[mascota.id].map((vacuna) => (
+                        <IonItem key={vacuna.id} className="border-b border-gray-300">
+                          <IonLabel>
+                            <h3 className="font-semibold text-dark-blue">
+                              {t('vaccine_label')}: {vacuna || t('unknown_vaccine')}
+                            </h3>
+                            <p className="text-dark-blue">
+                              {console.log("fecha: ", vacuna.created_at)}
+                              {t('date_label')}: {vacuna.created_at?.slice(0, 10) || t('no_date')}
+                            </p>
+                          </IonLabel>
+                        </IonItem>
+                      ))}
+                    </IonList>
+                  ) : (
+                    <p className="text-gray-500">{t('no_vaccines')}</p>
+                  )}
+                </IonCardContent>
+              </IonCard>
             ))}
           </IonList>
         )}
