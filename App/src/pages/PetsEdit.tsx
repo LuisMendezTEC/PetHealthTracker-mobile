@@ -1,10 +1,12 @@
 import {
   IonButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonContent,
   IonHeader,
+  IonIcon,
   IonInput,
   IonLabel,
   IonList,
@@ -14,6 +16,7 @@ import {
   IonToolbar,
   useIonToast,
 } from '@ionic/react';
+import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
@@ -27,6 +30,10 @@ const PetsEdit: React.FC = () => {
   const [presentToast] = useIonToast();
   const history = useHistory();
   const { t } = useTranslation();
+
+  const goToSettings = () => {
+    history.push('/Settings');
+  }
 
   // Carga inicial de datos de la mascota
   useEffect(() => {
@@ -74,6 +81,11 @@ const PetsEdit: React.FC = () => {
       <IonHeader>
         <IonToolbar className="bg-light-blue">
           <IonTitle className="text-white">{t('pets_description')}</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={goToSettings}>
+              <IonIcon icon={settingsOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="bg-light-blue">
