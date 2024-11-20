@@ -23,7 +23,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { addPet } from '../components/api';
-import { Mascota } from '../components/models';
+import { nuevaMascota } from '../components/models';
 import '../styles/PetsAdd.css';
 
 const PetsAdd: React.FC = () => {
@@ -47,7 +47,7 @@ const PetsAdd: React.FC = () => {
       return;
     }
 
-    const nuevaMascota: Mascota = {
+    const nuevaMascota: nuevaMascota = {
       nombre_mascota: nombreMascota,
       especie,
       raza,

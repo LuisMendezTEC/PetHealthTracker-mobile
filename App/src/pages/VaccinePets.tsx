@@ -52,11 +52,11 @@ const VaccinePets: React.FC = () => {
         const vacunasPorMascota: { [key: number]: Vacunas[] } = {};
 
         await Promise.all(
-          mascotasData.map(async (mascota) => {
+          mascotasData.map(async (mascota: any) => {
             try {
               const vacunasRelResponse = await getVaccineByPet(mascota.id);
               const vacunasRel = vacunasRelResponse.data; // Obtener la propiedad `data`
-
+              
               if (!Array.isArray(vacunasRel)) {
                 vacunasPorMascota[mascota.id] = [];
                 return;
@@ -67,7 +67,7 @@ const VaccinePets: React.FC = () => {
                 vacunasRel.map(async (vacunaRel) => {
                   try {
                     const vacunaDetailsResponse = await getVaccine(vacunaRel.vacuna); // Usar el campo `vacuna` para obtener detalles
-                    return vacunaDetailsResponse[0].tipo_vacuna; // Acceder al detalle desde `data`
+                    return vacunaDetailsResponse[0]; // Acceder al detalle desde `data`
                   } catch (error) {
                     console.error(`Error al obtener la vacuna con ID ${vacunaRel.vacuna}:`, error);
                     return null;
@@ -77,6 +77,7 @@ const VaccinePets: React.FC = () => {
 
               // Filtrar resultados nulos y asignar a la mascota
               vacunasPorMascota[mascota.id] = detallesVacunas.filter((v) => v !== null);
+              console.log("Vacunas", vacunasPorMascota[mascota.id]);
             } catch (error) {
               console.error(`Error al obtener vacunas para la mascota ${mascota.id}:`, error);
               vacunasPorMascota[mascota.id] = [];
@@ -126,10 +127,9 @@ const VaccinePets: React.FC = () => {
                         <IonItem key={vacuna.id} className="border-b border-gray-300">
                           <IonLabel>
                             <h3 className="font-semibold text-dark-blue">
-                              {t('vaccine_label')}: {vacuna || t('unknown_vaccine')}
+                              {t('vaccine_label')}: {vacuna.tipo_vacuna || t('unknown_vaccine')}
                             </h3>
                             <p className="text-dark-blue">
-                              {console.log("fecha: ", vacuna.created_at)}
                               {t('date_label')}: {vacuna.created_at?.slice(0, 10) || t('no_date')}
                             </p>
                           </IonLabel>

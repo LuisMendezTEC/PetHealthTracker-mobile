@@ -113,7 +113,7 @@ const Appointments: React.FC = () => {
                   </IonCardHeader>
                   <IonCardContent>
                     <p className="text-dark-blue">{t('time_label')}: {cita.hora_cita}</p>
-                    <p className="text-dark-blue">{t('pet_label')}: {mascota?.nombre_mascota || t('unknown_pet')}</p>
+                    <p className="text-dark-blue">{t('title')}: {mascota?.nombre_mascota || t('unknown_pet')}</p>
                     <p className="text-dark-blue">{t('vet_label')}: {nombreVeterinarios[cita.id_veterinario] || t('unknown_vet')}</p>
                     <IonButton
                       expand="block"

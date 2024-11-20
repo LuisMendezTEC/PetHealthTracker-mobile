@@ -23,7 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { addCita, getMascotasByUser, getVet } from '../components/api';
-import { Cita, Mascota } from '../components/models';
+import { Mascota, nuevaCita } from '../components/models';
 import '../styles/CitasAdd.css';
 
 const CitasAdd: React.FC = () => {
@@ -63,7 +63,7 @@ const CitasAdd: React.FC = () => {
       return;
     }
 
-    const nuevaCita: Cita = {
+    const nuevaCita: nuevaCita = {
       id_mascota: selectedMascota,
       fecha_cita: fechaCita,
       id_veterinario: idVeterinario,

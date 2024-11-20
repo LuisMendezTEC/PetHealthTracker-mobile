@@ -1,4 +1,5 @@
 export interface Mascota {
+    id: number;
     nombre_mascota: string;
     especie: string;
     raza: string;
@@ -27,4 +28,5 @@ export interface VacunaRel {
   create_at: string;
   vacuna: number;
   mascota: number;
+  data: any;
 }

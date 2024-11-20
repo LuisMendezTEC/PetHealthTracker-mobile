@@ -120,7 +120,7 @@ const Diagnostics: React.FC = () => {
                   <IonButton
                     expand="full"
                     color="primary"
-                    onClick={() => history.push(`/mascotas/${mascota.id_dueño}/editar`)}
+                    onClick={() => history.push(`/mascotas/${mascota.id}/editar`)}
                     className="styled-button-full"
                   >
                     {t("view_pet_button")}
