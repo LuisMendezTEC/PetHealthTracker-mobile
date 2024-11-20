@@ -72,11 +72,11 @@ const PetsEdit: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>{t('pets_description')}</IonTitle>
+        <IonToolbar className="bg-light-blue">
+          <IonTitle className="text-white">{t('pets_description')}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen className="bg-light-blue">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <IonSpinner name="crescent" />
@@ -85,9 +85,9 @@ const PetsEdit: React.FC = () => {
           mascota && (
             <IonList className="p-6 space-y-6">
               {/* Campo: Nombre de la mascota */}
-              <IonCard className="bg-blue-50">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">{t('name_label')}</IonLabel>
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('name_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -100,9 +100,9 @@ const PetsEdit: React.FC = () => {
               </IonCard>
 
               {/* Campo: Especie */}
-              <IonCard className="bg-blue-50">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">{t('species_label')}</IonLabel>
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('species_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -115,9 +115,9 @@ const PetsEdit: React.FC = () => {
               </IonCard>
 
               {/* Campo: Raza */}
-              <IonCard className="bg-blue-50">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">{t('breed_label')}</IonLabel>
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('breed_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput
@@ -130,9 +130,9 @@ const PetsEdit: React.FC = () => {
               </IonCard>
 
               {/* Campo: Fecha de nacimiento */}
-              <IonCard className="bg-blue-50">
+              <IonCard className="card-bg-light-blue">
                 <IonCardHeader>
-                  <IonLabel className="text-lg font-bold text-blue-500">{t('birthdate_label')}</IonLabel>
+                  <IonLabel className="text-lg font-bold text-dark-blue">{t('birthdate_label')}</IonLabel>
                 </IonCardHeader>
                 <IonCardContent>
                   <IonInput

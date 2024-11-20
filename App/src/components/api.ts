@@ -1,28 +1,33 @@
 import { Mascota, nuevaCita, nuevaMascota, VacunaRel } from './models';
 
-const userId = localStorage.getItem('client_id'); 
-const token = localStorage.getItem('token');
-
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${token}`,
+const getHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+  };
 };
+
 
 const URL = import.meta.env.VITE_API_URL;
 
 console.log(URL);
 
 export const getMascotasByUser = async (userId: number) => {
-  const response = await fetch(`${URL}mascotas/dueno/${userId}`, { headers });
+  const response = await fetch(`${URL}mascotas/dueno/${userId}`, {
+      headers: getHeaders(),
+  });
   const data = await response.json();
   if (!response.ok) {
-    throw new Error("Error al obtener las mascotas del usuario");
+      throw new Error("Error al obtener las mascotas del usuario");
   }
   return data.data;
 };
 
 export const getMascotaById = async (id: number) => {
-  const response = await fetch(`${URL}mascotas/${id}`, { headers });
+  const response = await fetch(`${URL}mascotas/${id}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener la mascota por ID");
@@ -33,7 +38,7 @@ export const getMascotaById = async (id: number) => {
 export const updateMascota = async (id: number, mascota: Mascota) => {
   const response = await fetch(`${URL}mascotas/${id}/editar`, {
     method: "PUT",
-    headers,
+    headers: getHeaders(),
     body: JSON.stringify(mascota),
   });
   const data = await response.json();
@@ -46,7 +51,7 @@ export const updateMascota = async (id: number, mascota: Mascota) => {
 export const addPet = async (mascota: nuevaMascota) => {
   const response = await fetch(`${URL}mascotas/`, {
     method: "POST",
-    headers,
+    headers: getHeaders(),
     body: JSON.stringify(mascota),
   });
   const data = await response.json();
@@ -57,7 +62,9 @@ export const addPet = async (mascota: nuevaMascota) => {
 };
 
 export const getCitasByMascota = async (mascotaId: number) => {
-  const response = await fetch(`${URL}citas/${mascotaId}`, { headers });
+  const response = await fetch(`${URL}citas/${mascotaId}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener las citas de la mascota");
@@ -66,7 +73,9 @@ export const getCitasByMascota = async (mascotaId: number) => {
 };
 
 export const getCitaByFecha = async (id_cita: number) => {
-  const response = await fetch(`${URL}citas/${id_cita}/fecha`, { headers });
+  const response = await fetch(`${URL}citas/${id_cita}/fecha`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener la cita por fecha");
@@ -77,7 +86,7 @@ export const getCitaByFecha = async (id_cita: number) => {
 export const cancelarCita = async (id: number) => {
   const response = await fetch(`${URL}citas/${id}/cancelar`, {
     method: "DELETE",
-    headers,
+    headers: getHeaders(),
   });
   if (!response.ok) {
     throw new Error("Error al cancelar la cita");
@@ -88,7 +97,7 @@ export const cancelarCita = async (id: number) => {
 export const addCita = async (cita: nuevaCita) => {
   const response = await fetch(`${URL}citas/`, {
     method: "POST",
-    headers,
+    headers: getHeaders(),
     body: JSON.stringify(cita),
   });
   const data = await response.json();
@@ -99,7 +108,9 @@ export const addCita = async (cita: nuevaCita) => {
 };
 
 export const getDiagnosticsByPet = async (mascotaId: number) => {
-  const response = await fetch(`${URL}diagnosticos/historial/${mascotaId}`, { headers });
+  const response = await fetch(`${URL}diagnosticos/historial/${mascotaId}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener los diagnósticos de la mascota");
@@ -108,7 +119,9 @@ export const getDiagnosticsByPet = async (mascotaId: number) => {
 };
 
 export const getVaccineByPet = async (mascotaId: number): Promise<VacunaRel> => {
-  const response = await fetch(`${URL}vacunas/mascotas/${mascotaId}`, { headers });
+  const response = await fetch(`${URL}vacunas/mascotas/${mascotaId}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener las vacunas de la mascota");
@@ -118,7 +131,9 @@ export const getVaccineByPet = async (mascotaId: number): Promise<VacunaRel> => 
 
 export const getVaccine = async (id: number) => {
   console.log(id);
-  const response = await fetch(`${URL}vacunas/${id}`, { headers });
+  const response = await fetch(`${URL}vacunas/${id}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener la vacuna");
@@ -127,7 +142,9 @@ export const getVaccine = async (id: number) => {
 };
 
 export const getVetByPet = async (veterinario_id: number) => {
-  const response = await fetch(`${URL}funcionarios/${veterinario_id}`, { headers });
+  const response = await fetch(`${URL}funcionarios/${veterinario_id}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario de la mascota");
@@ -136,7 +153,9 @@ export const getVetByPet = async (veterinario_id: number) => {
 };
 
 export const getVet = async () => {
-  const response = await fetch(`${URL}funcionarios`, { headers });
+  const response = await fetch(`${URL}funcionarios`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario");
@@ -145,7 +164,9 @@ export const getVet = async () => {
 };
 
 export const getVetById = async (id: number) => { 
-  const response = await fetch(`${URL}funcionarios/${id}`, { headers });
+  const response = await fetch(`${URL}funcionarios/${id}`, {
+    headers: getHeaders(),
+});
   const data = await response.json();
   if (!response.ok) {
     throw new Error("Error al obtener el veterinario por ID");
